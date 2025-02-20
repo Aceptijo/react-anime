@@ -3,7 +3,13 @@
   "singleQuote": true,
   "trailingComma": "es5",
   "arrowParens": "always",
-  "printWidth": 100,
+  "printWidth": 80,
   "tabWidth": 2,
-  "endOfLine": "auto"
+  "jsxSingleQuote": false,
+  "jsxBracketSameLine": false,
+  "endOfLine": "auto",
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ]
 }
+

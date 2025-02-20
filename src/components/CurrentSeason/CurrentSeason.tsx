@@ -14,19 +14,24 @@ const CurrentSeason = () => {
 
   useEffect(() => {
     fetchSeasonAnime();
-  }, []);
+  }, [fetchSeasonAnime]);
 
   return (
     <Carousel
-      className="w-full flex flex-col justify-start"
+      className="flex w-full flex-col justify-start"
       opts={{
         align: 'start',
       }}
     >
-      <span className="flex pt-5 pb-5 text-gray-200">{'Winter 2025 Anime'}</span>
+      <span className="text-1xl flex pb-5 pt-5 text-gray-200">
+        {`${seasonAnime[0]?.season.toUpperCase()} ${seasonAnime[0]?.year} Anime`}
+      </span>
       <CarouselContent>
         {seasonAnime.map((seasonItem) => (
-          <CarouselItem key={seasonItem.mal_id} className="w-1/6 max-h-72 basis-auto">
+          <CarouselItem
+            key={seasonItem.mal_id}
+            className="max-h-72 w-1/6 basis-auto"
+          >
             <AnimeCard anime={seasonItem} />
           </CarouselItem>
         ))}

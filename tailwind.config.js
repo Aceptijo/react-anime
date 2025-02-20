@@ -19,7 +19,14 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        background: '#323437',
+        background: '#131313',
+        myGray: '#d3d3d3',
+        myGreen: '#4AB868',
+        myDarkGray: '#2D2D2D',
+        myYellow: '#f2b800',
+        myRed: '#FE3635',
+        myHoverGreen: '#3e9355',
+        myHoverGray: '#434343',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',

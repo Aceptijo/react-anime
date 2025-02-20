@@ -4,6 +4,8 @@ export type ICurrentSeason = {
   images: {
     jpg: {
       image_url: string;
+      small_image_url: string;
+      large_image_url: string;
     };
     webp: {
       image_url: string;
@@ -13,6 +15,9 @@ export type ICurrentSeason = {
     youtube_id: string;
     url: string;
     embed_url: string;
+    images: {
+      maximum_image_url: string;
+    };
   };
   approved: boolean;
   title_english: string;
@@ -23,4 +28,9 @@ export type ICurrentSeason = {
   airing: boolean;
   season: string;
   year: number;
+  synopsis: string;
+  score: number;
+  rating: string;
+  rank: number;
+  background: string;
 };
