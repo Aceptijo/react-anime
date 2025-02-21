@@ -5,9 +5,11 @@ import Footer from '@/components/Footer/Footer.tsx';
 
 function App() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex min-h-screen flex-col items-center">
       <NavBar />
-      <AppRouter />
+      <div className="flex-grow">
+        <AppRouter />
+      </div>
       <Footer />
     </div>
   );

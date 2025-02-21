@@ -1,15 +1,14 @@
 import TelegramIcon from '@mui/icons-material/Telegram';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button.tsx';
 
 const Footer = () => {
   return (
-    <div className="mt-10 flex h-20 w-full items-center justify-between">
-      <Link to={'/'} className="text-sm">
+    <footer className="mt-20 flex h-20 w-full items-center justify-between">
+      <a href={'https://github.com/Aceptijo/react-anime'} className="text-sm">
         2025 React-anime
-      </Link>
+      </a>
       <div className="flex gap-2">
         <Button className="group hover:bg-foreground" asChild>
           <a href={'https://t.me/ScanDave'}>
@@ -27,7 +26,7 @@ const Footer = () => {
           </a>
         </Button>
       </div>
-    </div>
+    </footer>
   );
 };
 

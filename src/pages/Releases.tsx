@@ -1,5 +1,5 @@
 const Releases = () => {
-  return <div>Releases page</div>;
+  return <div className="mt-20">Releases page</div>;
 };
 
 export default Releases;

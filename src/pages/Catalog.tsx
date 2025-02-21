@@ -1,5 +1,5 @@
 const Catalog = () => {
-  return <div>Anime catalog page</div>;
+  return <div className="mt-20">Anime catalog page</div>;
 };
 
 export default Catalog;

@@ -1,5 +1,5 @@
 const Top = () => {
-  return <div className="mt-14">TOP ANIME PAGE</div>;
+  return <div className="mt-20">Top anime page</div>;
 };
 
 export default Top;
