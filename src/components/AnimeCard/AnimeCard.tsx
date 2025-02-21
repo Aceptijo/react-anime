@@ -10,13 +10,19 @@ type AnimeCardProps = {
 const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
   if ('entry' in anime) {
     return (
-      <Card className="max-w-52 h-full overflow-hidden">
-        <CardContent className="flex items-center justify-center p-0 h-full">
+      <Card className="group relative h-full cursor-pointer overflow-hidden">
+        <CardContent className="flex h-full items-center justify-center p-0">
           <img
-            className="w-full max-h-72 h-full"
-            src={anime.entry[0].images.jpg.image_url}
+            className="h-full w-full cursor-pointer"
+            src={anime.entry[0].images.jpg.large_image_url}
             alt={anime.entry[0].title}
           />
+          <div className="transition-opacity: absolute h-full w-full bg-primary text-white opacity-0 duration-200 group-hover:opacity-80">
+            <div className="flex flex-col items-center gap-5 text-wrap break-words p-4">
+              <span className="text-xl font-bold">{anime.entry[0].title}</span>
+              <span className="line-clamp-6">{anime.content}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -24,13 +30,19 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
 
   if ('season' in anime) {
     return (
-      <Card className="max-w-52 h-full overflow-hidden">
-        <CardContent className="flex items-center justify-center p-0 h-full">
+      <Card className="group relative h-full cursor-pointer overflow-hidden">
+        <CardContent className="flex h-full items-center justify-center p-0">
           <img
-            className="w-full max-h-72 h-full"
-            src={anime.images.jpg.image_url || 'asd'}
+            className="h-full w-full cursor-pointer"
+            src={anime.images.jpg.large_image_url || 'asd'}
             alt={anime.title_english}
           />
+          <div className="absolute h-full w-full bg-primary text-white opacity-0 transition-opacity duration-300 group-hover:opacity-80">
+            <div className="flex flex-col items-center gap-5 text-wrap break-words p-4">
+              <span className="text-xl font-bold">{anime.title_english}</span>
+              <span className="line-clamp-6">{anime.synopsis}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );

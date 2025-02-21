@@ -18,21 +18,21 @@ const Recommendations = () => {
 
   return (
     <Carousel
-      className="w-full flex flex-col justify-start"
+      className="flex w-full flex-col justify-start"
       opts={{
         align: 'start',
       }}
     >
-      <span className="flex pt-5 pb-5 text-gray-200">Recommended</span>
+      <span className="flex pb-5 pt-5 text-xl text-gray-200">Recommended</span>
       <CarouselContent>
         {anime.map((item) => (
-          <CarouselItem key={item.mal_id} className="w-1/6 max-h-72 basis-auto">
+          <CarouselItem key={item.mal_id} className="w-1/5 basis-auto">
             <AnimeCard anime={item} />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious variant="ghost" />
+      <CarouselNext variant="ghost" />
     </Carousel>
   );
 };

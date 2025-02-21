@@ -19,14 +19,8 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        background: '#131313',
-        myGray: '#d3d3d3',
-        myGreen: '#4AB868',
-        myDarkGray: '#2D2D2D',
         myYellow: '#f2b800',
-        myRed: '#FE3635',
-        myHoverGreen: '#3e9355',
-        myHoverGray: '#434343',
+        background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',
@@ -43,6 +37,7 @@ export default {
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
+          hover: 'hsl(var(--secondary-hover))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

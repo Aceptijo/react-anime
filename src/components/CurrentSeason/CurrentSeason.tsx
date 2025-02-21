@@ -16,28 +16,29 @@ const CurrentSeason = () => {
     fetchSeasonAnime();
   }, [fetchSeasonAnime]);
 
+  const formatLiteral = () => {
+    return seasonAnime[0]?.season.charAt(0).toUpperCase() + seasonAnime[0]?.season.slice(1);
+  };
+
   return (
     <Carousel
-      className="flex w-full flex-col justify-start"
+      className="mt-10 flex w-full flex-col justify-start"
       opts={{
         align: 'start',
       }}
     >
-      <span className="text-1xl flex pb-5 pt-5 text-gray-200">
-        {`${seasonAnime[0]?.season.toUpperCase()} ${seasonAnime[0]?.year} Anime`}
+      <span className="flex pb-5 pt-5 text-xl text-gray-200">
+        {`${formatLiteral()} ${seasonAnime[0]?.year} Anime`}
       </span>
       <CarouselContent>
         {seasonAnime.map((seasonItem) => (
-          <CarouselItem
-            key={seasonItem.mal_id}
-            className="max-h-72 w-1/6 basis-auto"
-          >
+          <CarouselItem key={seasonItem.mal_id} className="w-1/5 basis-auto">
             <AnimeCard anime={seasonItem} />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious variant="ghost" />
+      <CarouselNext variant="ghost" />
     </Carousel>
   );
 };
