@@ -15,7 +15,7 @@ const AppRouter = () => {
       <Route path="/top" element={<Top />} />
       <Route path="/random" element={<Random />} />
       <Route path="/catalog" element={<Catalog />} />
-      <Route path="/catalog/item/:title" element={<CatalogItem />} />
+      <Route path="/catalog/item/:id" element={<CatalogItem />} />
       <Route path="/releases" element={<Releases />} />
       <Route path="/calendar" element={<Calendar />} />
     </Routes>

@@ -11,7 +11,7 @@ export default {
         desktop: '1280px',
       },
       fontFamily: {
-        sans: ['Inter Tight', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -20,6 +20,7 @@ export default {
       },
       colors: {
         myYellow: '#f2b800',
+        secondaryBg: '#161616',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

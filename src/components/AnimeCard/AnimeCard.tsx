@@ -11,8 +11,8 @@ type AnimeCardProps = {
 const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
   if ('entry' in anime) {
     return (
-      <Card className="group relative h-full cursor-pointer overflow-hidden">
-        <Link to={`/catalog/item/${anime.entry[0].title}`}>
+      <Card className="group relative h-full cursor-pointer overflow-hidden border-none">
+        <Link to={`/catalog/item/${anime.entry[0].mal_id}`}>
           <CardContent className="flex h-full items-center justify-center p-0">
             <img
               className="h-full w-full cursor-pointer"
@@ -33,8 +33,8 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
 
   if ('season' in anime) {
     return (
-      <Card className="group relative h-full cursor-pointer overflow-hidden">
-        <Link to={`/catalog/item/${anime.title_english}`}>
+      <Card className="group relative h-full cursor-pointer overflow-hidden border-none">
+        <Link to={`/catalog/item/${anime.mal_id}`}>
           <CardContent className="flex h-full items-center justify-center p-0">
             <img
               className="h-full w-full cursor-pointer"
