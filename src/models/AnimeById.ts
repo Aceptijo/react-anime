@@ -23,6 +23,7 @@ export type IAnimeById = {
   rating: string;
   source: string;
   genres: {
+    mal_id: number;
     name: string;
   }[];
   season: string;
