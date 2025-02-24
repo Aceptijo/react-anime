@@ -30,4 +30,11 @@ export type IAnimeById = {
   year: number;
   score: number;
   scored_by: number;
+  studios: {
+    name: string;
+  }[];
+  rank: number;
+  popularity: number;
+  members: number;
+  favorites: number;
 };

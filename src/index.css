@@ -57,10 +57,10 @@
       --primary: 0 0% 18%;
       --primary-foreground: 0 0% 83%;
       --secondary: 136 44% 51%;
-      --secondary-hover: 136 41% 41%;
+      --secondary-hover: 138 17% 12%;
       --secondary-foreground: 0 0% 100%;
       --muted: 215 27.9% 16.9%;
-      --muted-foreground: 217.9 10.6% 64.9%;
+      --muted-foreground: 0 0% 43%;
       --accent: 0 0% 26%;
       --accent-foreground: 0 0% 83%;
       --destructive: 0 99% 60%;
@@ -90,10 +90,11 @@
 /*---break---*/
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+   * {
+      @apply border-border outline-ring/50;
    }
-  body {
-    @apply bg-background text-foreground;
+
+   body {
+      @apply bg-background text-foreground;
    }
 }
