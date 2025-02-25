@@ -30,10 +30,10 @@ const CatalogItem = () => {
 
   return (
     <div className="mt-20 flex w-full gap-5">
-      <div className="flex flex-col gap-3">
+      <div className="flex w-1/4 flex-col gap-3">
         <img
-          className="max-w-fit rounded-xl"
-          src={`${fetchedAnime?.images.jpg.image_url}`}
+          className="rounded-xl"
+          src={`${fetchedAnime?.images.jpg.large_image_url}`}
           alt={`${fetchedAnime?.title_english}`}
         />
         <TooltipProvider>
@@ -153,7 +153,7 @@ const CatalogItem = () => {
       <div className="flex w-full flex-col gap-5">
         <div className="flex items-center justify-between">
           <h1 className="pt-5 text-left text-2xl font-bold text-secondary-foreground">
-            {fetchedAnime?.title_english}
+            {fetchedAnime?.title_english || fetchedAnime?.title}
           </h1>
           <div className="mt-5 flex items-center text-myYellow">
             <StarRoundedIcon />
@@ -234,12 +234,18 @@ const CatalogItem = () => {
         </div>
         <div className="flex h-full w-full flex-col gap-5 rounded-xl bg-secondaryBg p-4">
           <span className="text-left text-lg font-medium text-secondary-foreground">Trailer</span>
-          <iframe
-            src={`${fetchedAnime?.trailer.embed_url}`}
-            height="615"
-            className="w-full rounded-xl"
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+          {fetchedAnime?.trailer.embed_url ? (
+            <iframe
+              src={`${fetchedAnime?.trailer.embed_url}`}
+              height="615"
+              className="w-full rounded-xl"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-xl font-bold">
+              API does not contain a trailer for this anime! :(
+            </div>
+          )}
         </div>
       </div>
     </div>

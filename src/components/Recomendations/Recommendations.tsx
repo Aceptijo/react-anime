@@ -18,15 +18,15 @@ const Recommendations = () => {
 
   return (
     <Carousel
-      className="flex w-full flex-col justify-start"
+      className="flex flex-col justify-start"
       opts={{
         align: 'start',
       }}
     >
-      <span className="flex pb-5 pt-5 text-xl text-gray-200">Recommended</span>
+      <span className="flex pb-5 pt-5 text-xl font-medium text-white">Recommended</span>
       <CarouselContent>
         {anime.map((item) => (
-          <CarouselItem key={item.mal_id} className="w-1/5 basis-auto">
+          <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">
             <AnimeCard anime={item} />
           </CarouselItem>
         ))}

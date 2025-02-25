@@ -20,6 +20,7 @@ export type ICurrentSeason = {
     };
   };
   approved: boolean;
+  title: string;
   title_english: string;
   type: string;
   source: string;

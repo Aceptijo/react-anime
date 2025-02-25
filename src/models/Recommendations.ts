@@ -13,6 +13,7 @@ export type IRecommendations = {
       };
     };
     title: string;
+    title_english?: string;
   }[];
   content: string;
   user: {

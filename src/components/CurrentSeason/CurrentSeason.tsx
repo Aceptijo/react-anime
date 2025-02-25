@@ -22,17 +22,17 @@ const CurrentSeason = () => {
 
   return (
     <Carousel
-      className="mt-10 flex w-full flex-col justify-start"
+      className="mt-10 flex flex-col justify-start"
       opts={{
         align: 'start',
       }}
     >
-      <span className="flex pb-5 pt-5 text-xl text-gray-200">
+      <span className="flex pb-5 pt-5 text-xl font-medium text-white">
         {`${formatLiteral()} ${seasonAnime[0]?.year} Anime`}
       </span>
       <CarouselContent>
         {seasonAnime.map((seasonItem) => (
-          <CarouselItem key={seasonItem.mal_id} className="w-1/5 basis-auto">
+          <CarouselItem key={seasonItem.mal_id} className="w-1/5 basis-1/5">
             <AnimeCard anime={seasonItem} />
           </CarouselItem>
         ))}

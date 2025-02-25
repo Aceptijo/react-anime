@@ -11,6 +11,7 @@ export type IAnimeById = {
     url: string;
     embed_url: string;
   };
+  title: string;
   title_english: string;
   synopsis: string;
   type: string;

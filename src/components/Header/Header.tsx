@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import useCurrentSeasonStore from '@/store/CurrentSeasonStore.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
@@ -7,11 +6,7 @@ import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 const Header = () => {
-  const { seasonAnime, fetchSeasonAnime } = useCurrentSeasonStore();
-
-  useEffect(() => {
-    fetchSeasonAnime();
-  }, [fetchSeasonAnime]);
+  const { seasonAnime } = useCurrentSeasonStore();
 
   const selectRating = () => {
     return seasonAnime[0]?.rating.includes('17') ? 'R - 17+' : 'PG - 13';
@@ -45,7 +40,7 @@ const Header = () => {
         </div>
         <p className="text-left">{`${seasonAnime[0]?.synopsis}`}</p>
         <div className="flex gap-3">
-          <Button className="hover:bg-secondary-hover text-1xl bg-secondary text-secondary-foreground">
+          <Button className="text-1xl bg-secondary text-secondary-foreground hover:bg-secondary-hover">
             <PlayArrowIcon />
             <span>Watch now</span>
           </Button>
