@@ -3,7 +3,6 @@ import Top from '@/pages/Top.tsx';
 import Catalog from '@/pages/Catalog.tsx';
 import Releases from '@/pages/Releases.tsx';
 import Calendar from '@/pages/Calendar.tsx';
-import Random from '@/pages/Random.tsx';
 import Main from '@/components/Main/Main.tsx';
 import CatalogItem from '@/pages/CatalogItem.tsx';
 
@@ -13,7 +12,6 @@ const AppRouter = () => {
       <Route path="/" element={<Main />} />
       <Route path="*" element={<Navigate to="/" />} />
       <Route path="/top" element={<Top />} />
-      <Route path="/random" element={<Random />} />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/catalog/item/:id" element={<CatalogItem />} />
       <Route path="/releases" element={<Releases />} />

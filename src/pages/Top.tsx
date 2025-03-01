@@ -1,9 +1,6 @@
 import useTopAnimeStore from '@/store/TopAnimeStore.ts';
 import { useEffect } from 'react';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
-import useGenresStore from '@/store/GenresStore.ts';
-import { Checkbox } from '@/components/ui/checkbox.tsx';
-import { Label } from '@/components/ui/label.tsx';
 import {
   Select,
   SelectContent,
@@ -14,17 +11,15 @@ import {
 
 const Top = () => {
   const { topAnime, fetchTopAnime, isLoading } = useTopAnimeStore();
-  const { genres, fetchGenres } = useGenresStore();
 
   useEffect(() => {
     fetchTopAnime();
-    fetchGenres();
-  }, [fetchTopAnime, fetchGenres]);
+  }, [fetchTopAnime]);
 
   return (
     <div className="mt-20">
       <div className="flex gap-5">
-        <div className="flex w-4/5 flex-col">
+        <div className="flex flex-col">
           <div className="flex justify-between pb-5">
             <span className="text-lg font-bold">Top</span>
             <div className="flex gap-1">
@@ -53,22 +48,22 @@ const Top = () => {
           {isLoading ? (
             <div>Loading...</div>
           ) : (
-            <div className="grid w-full grid-cols-4 gap-5">
+            <div className="grid w-full grid-cols-5 gap-5">
               {topAnime?.map((anime) => <AnimeCard anime={anime} key={anime.mal_id} />)}
             </div>
           )}
         </div>
-        <div className="flex h-full w-1/5 flex-wrap rounded-xl bg-secondaryBg p-4">
-          <span className="mb-6 w-full text-left font-medium">Genres</span>
-          {genres.map((genre) => (
-            <div className="flex w-1/2 gap-1">
-              <Checkbox id={genre.name} />
-              <Label htmlFor={`${genre.name}`} className="text-sm">
-                {genre.name}
-              </Label>
-            </div>
-          ))}
-        </div>
+        {/*<div className="flex h-full w-1/5 flex-wrap rounded-xl bg-secondaryBg p-4">*/}
+        {/*  <span className="mb-6 w-full text-left font-medium">Genres</span>*/}
+        {/*  {genres.map((genre) => (*/}
+        {/*    <div className="flex w-1/2 gap-1" key={genre.mal_id}>*/}
+        {/*      <Checkbox id={genre.name} />*/}
+        {/*      <Label htmlFor={`${genre.name}`} className="text-sm">*/}
+        {/*        {genre.name}*/}
+        {/*      </Label>*/}
+        {/*    </div>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
       </div>
     </div>
   );

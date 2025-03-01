@@ -6,8 +6,11 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu.tsx';
 import { Link } from 'react-router-dom';
+import useRandomAnimeStore from '@/store/RandomAnimeStore.ts';
 
 const NavBar = () => {
+  const { randomAnime, fetchRandomAnime } = useRandomAnimeStore();
+
   return (
     <nav className="absolute mb-20 flex h-20 w-full">
       <div className="ml-auto mr-auto flex min-w-[1280px] items-center gap-10 text-sm">
@@ -25,7 +28,9 @@ const NavBar = () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} text-lg`}>
-                <Link to="/random">Random</Link>
+                <Link to={`/catalog/item/${randomAnime?.mal_id}`} onClick={fetchRandomAnime}>
+                  Random
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>

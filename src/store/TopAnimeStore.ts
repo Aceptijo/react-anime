@@ -20,7 +20,7 @@ const useTopAnimeStore = create<TopAnimeStore>((set) => ({
         'https://api.jikan.moe/v4/top/anime',
         {
           params: {
-            limit: 20,
+            limit: 25,
           },
         }
       );
