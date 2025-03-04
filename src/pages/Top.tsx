@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 const Top = () => {
   const { topAnime, fetchTopAnime, isLoading } = useTopAnimeStore();
@@ -18,53 +19,49 @@ const Top = () => {
 
   return (
     <div className="mt-20">
-      <div className="flex gap-5">
-        <div className="flex flex-col">
-          <div className="flex justify-between pb-5">
-            <span className="text-lg font-bold">Top</span>
-            <div className="flex gap-1">
-              <Select>
-                <SelectTrigger className="flex gap-3 border-none">
-                  <SelectValue placeholder="Descending order" />
-                </SelectTrigger>
-                <SelectContent className="border-secondaryBg bg-secondaryBg">
-                  <SelectItem value="popularity">Popularity</SelectItem>
-                  <SelectItem value="releaseDate">Release Date</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger className="flex gap-3 border-none">
-                  <SelectValue placeholder="By rating" />
-                </SelectTrigger>
-                <SelectContent className="border-secondaryBg bg-secondaryBg">
-                  <SelectItem value="highLow">High to Low</SelectItem>
-                  <SelectItem value="lowHigh">Low to High</SelectItem>
-                  <SelectItem value="mostRated">Most Rated</SelectItem>
-                  <SelectItem value="LeastRated">Least Rated</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+      {isLoading ? (
+        <div className="flex flex-col gap-5">
+          <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
+          <div className="flex flex-wrap gap-5">
+            {Array.from({ length: 25 }).map((_, index) => (
+              <Skeleton className="h-[360px] w-[240px] bg-secondaryBg" key={index} />
+            ))}
           </div>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
+        </div>
+      ) : (
+        <div className="flex gap-5">
+          <div className="flex flex-col">
+            <div className="flex justify-between pb-5">
+              <span className="text-lg font-bold">Top</span>
+              <div className="flex gap-1">
+                <Select>
+                  <SelectTrigger className="flex gap-3 border-none">
+                    <SelectValue placeholder="Descending order" />
+                  </SelectTrigger>
+                  <SelectContent className="border-secondaryBg bg-secondaryBg">
+                    <SelectItem value="popularity">Popularity</SelectItem>
+                    <SelectItem value="releaseDate">Release Date</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger className="flex gap-3 border-none">
+                    <SelectValue placeholder="By rating" />
+                  </SelectTrigger>
+                  <SelectContent className="border-secondaryBg bg-secondaryBg">
+                    <SelectItem value="highLow">High to Low</SelectItem>
+                    <SelectItem value="lowHigh">Low to High</SelectItem>
+                    <SelectItem value="mostRated">Most Rated</SelectItem>
+                    <SelectItem value="LeastRated">Least Rated</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div className="grid w-full grid-cols-5 gap-5">
               {topAnime?.map((anime) => <AnimeCard anime={anime} key={anime.mal_id} />)}
             </div>
-          )}
+          </div>
         </div>
-        {/*<div className="flex h-full w-1/5 flex-wrap rounded-xl bg-secondaryBg p-4">*/}
-        {/*  <span className="mb-6 w-full text-left font-medium">Genres</span>*/}
-        {/*  {genres.map((genre) => (*/}
-        {/*    <div className="flex w-1/2 gap-1" key={genre.mal_id}>*/}
-        {/*      <Checkbox id={genre.name} />*/}
-        {/*      <Label htmlFor={`${genre.name}`} className="text-sm">*/}
-        {/*        {genre.name}*/}
-        {/*      </Label>*/}
-        {/*    </div>*/}
-        {/*  ))}*/}
-        {/*</div>*/}
-      </div>
+      )}
     </div>
   );
 };

@@ -8,32 +8,46 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel.tsx';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 const Recommendations = () => {
-  const { anime, fetchRecommendations } = useRecommendationsStore();
+  const { anime, isLoading, fetchRecommendations } = useRecommendationsStore();
 
   useEffect(() => {
     fetchRecommendations();
-  }, []);
+  }, [fetchRecommendations]);
 
   return (
-    <Carousel
-      className="flex flex-col justify-start"
-      opts={{
-        align: 'start',
-      }}
-    >
-      <span className="flex pb-5 pt-5 text-xl font-medium text-white">Recommended</span>
-      <CarouselContent>
-        {anime.map((item) => (
-          <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">
-            <AnimeCard anime={item} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious variant="ghost" />
-      <CarouselNext variant="ghost" />
-    </Carousel>
+    <>
+      {isLoading ? (
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
+          <div className="flex gap-3">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Skeleton className="h-[360px] w-1/5 bg-secondaryBg" key={index} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <Carousel
+          className="flex flex-col justify-start"
+          opts={{
+            align: 'start',
+          }}
+        >
+          <span className="flex py-5 text-xl font-medium text-white">Recommended</span>
+          <CarouselContent>
+            {anime.map((item) => (
+              <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">
+                <AnimeCard anime={item} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious variant="ghost" />
+          <CarouselNext variant="ghost" />
+        </Carousel>
+      )}
+    </>
   );
 };
 

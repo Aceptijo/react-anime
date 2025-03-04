@@ -20,7 +20,7 @@ const useRecommendationsStore = create<RecommendationsStore>((set) => ({
         'https://api.jikan.moe/v4/recommendations/anime'
       );
       const limit = response.data.data.slice(0, 20);
-      set({ anime: limit });
+      set({ anime: limit, isLoading: false });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || err.message });

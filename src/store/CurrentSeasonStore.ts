@@ -19,7 +19,7 @@ const useCurrentSeasonStore = create<CurrentSeasonStore>((set) => ({
       const response = await axios.get<{ data: ICurrentSeason[] }>(
         'https://api.jikan.moe/v4/seasons/now?limit=20'
       );
-      set({ seasonAnime: response.data.data });
+      set({ seasonAnime: response.data.data, isLoading: false });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || err.message });

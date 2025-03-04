@@ -14,7 +14,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
   const animeData = isRecommendations ? anime.entry[0] : anime;
 
   return (
-    <Card className="group relative h-full cursor-pointer overflow-hidden border-none">
+    <Card className="group relative h-[360px] cursor-pointer overflow-hidden border-none">
       <Link to={`/catalog/item/${animeData.mal_id}`}>
         <CardContent className="flex h-full items-center justify-center p-0">
           <img

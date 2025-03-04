@@ -2,9 +2,9 @@ import Home from '@/pages/Home.tsx';
 
 const Main = () => {
   return (
-    <main className="flex-grow">
+    <div className="flex-grow">
       <Home />
-    </main>
+    </div>
   );
 };
 

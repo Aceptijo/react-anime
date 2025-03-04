@@ -102,7 +102,7 @@ const CatalogItem = () => {
             </Tooltip>
           </ToggleGroup>
         </TooltipProvider>
-        <div className="flex flex-col items-start gap-2 rounded-xl bg-secondaryBg p-4 text-left">
+        <div className="flex flex-col items-start gap-3 rounded-xl bg-secondaryBg p-4 text-left">
           <div className="flex flex-col">
             <span className="text-sm font-medium text-muted-foreground">Type</span>
             <span>{fetchedAnime?.type}</span>
@@ -113,7 +113,7 @@ const CatalogItem = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-muted-foreground">Episodes</span>
-            <div className="flex gap-3">
+            <div className="flex gap-5">
               <span>{fetchedAnime?.episodes}</span>
               <span className="text-muted-foreground">{fetchedAnime?.duration}</span>
             </div>
@@ -124,21 +124,27 @@ const CatalogItem = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-muted-foreground">Studios</span>
-            <span>{fetchedAnime?.studios[0].name}</span>
+            <span>{fetchedAnime?.studios.length ? fetchedAnime?.studios[0].name : 'None'}</span>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-muted-foreground">Status</span>
-            <Badge variant="outline" className="border-secondary text-secondary">
+            <Badge
+              variant="outline"
+              className="border-secondary text-sm font-medium text-secondary"
+            >
               {fetchedAnime?.status}
             </Badge>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-muted-foreground">Rating</span>
-            <Badge variant="outline" className="border-destructive font-medium text-destructive">
+            <Badge
+              variant="outline"
+              className="border-destructive text-sm font-medium text-destructive"
+            >
               {fetchedAnime?.rating}
             </Badge>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-muted-foreground">Genres</span>
             <div className="flex flex-wrap gap-1">
               {fetchedAnime?.genres.map((genre) => (
@@ -157,7 +163,7 @@ const CatalogItem = () => {
           </h1>
           <div className="mt-5 flex items-center text-myYellow">
             <StarRoundedIcon />
-            <h1 className="mr-4 text-2xl font-medium">{fetchedAnime?.score}</h1>
+            <h1 className="mr-4 text-2xl font-medium">{fetchedAnime?.score ?? 0}</h1>
             <span className="text-xl text-muted-foreground">{`${fetchedAnime?.scored_by ?? 0} users`}</span>
           </div>
         </div>
@@ -191,8 +197,8 @@ const CatalogItem = () => {
                     <span>{`Members:`}</span>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <span className="text-myYellow">{fetchedAnime?.score}</span>
-                    <span>{`${fetchedAnime?.scored_by} users`}</span>
+                    <span className="text-myYellow">{fetchedAnime?.score ?? 0}</span>
+                    <span>{`${fetchedAnime?.scored_by || '0'} users`}</span>
                     <span>{fetchedAnime?.rank}</span>
                     <span>{fetchedAnime?.popularity}</span>
                     <span>{fetchedAnime?.members}</span>
@@ -216,20 +222,16 @@ const CatalogItem = () => {
           </Tabs>
         </div>
         <div className="flex flex-col gap-5 rounded-xl bg-secondaryBg p-4 text-left">
-          <h1 className="text-lg font-medium text-secondary-foreground">Episodes</h1>
+          <h1 className="text-lg font-medium text-secondary-foreground">Pictures</h1>
           <div className="flex h-36 gap-5">
-            <div className="basis-1/4 overflow-hidden rounded-xl bg-primary">
-              <img src={`${fetchedAnime?.images.jpg.image_url}`} className="w-full" alt="asd" />
-            </div>
-            <div className="basis-1/4 overflow-hidden rounded-xl bg-primary">
-              <img src={`${fetchedAnime?.images.jpg.image_url}`} className="w-full" alt="asdasd" />
-            </div>
-            <div className="basis-1/4 overflow-hidden rounded-xl bg-primary">
-              <img src={`${fetchedAnime?.images.jpg.image_url}`} className="w-full" alt="asdasd" />
-            </div>
-            <div className="basis-1/4 overflow-hidden rounded-xl bg-primary">
-              <img src={`${fetchedAnime?.images.jpg.image_url}`} className="w-full" alt="asdas" />
-            </div>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div
+                className="basis-1/4 content-center overflow-hidden rounded-xl bg-primary text-center"
+                key={index}
+              >
+                <span className="text-4xl text-muted-foreground">{index + 1}</span>
+              </div>
+            ))}
           </div>
         </div>
         <div className="flex h-full w-full flex-col gap-5 rounded-xl bg-secondaryBg p-4">
