@@ -23,7 +23,9 @@ const useRandomAnimeStore = create<RandomAnimeStore>((set) => ({
     } catch (err) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || err.message || 'Random anime fetch error' });
-      } else set({ error: 'Unknown error!' });
+      } else {
+        set({ error: 'Unknown error!' });
+      }
     } finally {
       set({ isLoading: false });
     }
