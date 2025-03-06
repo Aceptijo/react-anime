@@ -15,7 +15,9 @@ const Header = () => {
 
   const handleRandomClick = async () => {
     await fetchRandomAnime();
-    navigate(`/catalog/item/${randomAnime?.mal_id}`);
+    if (randomAnime?.mal_id) {
+      navigate(`/catalog/item/${randomAnime?.mal_id}`);
+    }
   };
 
   return (
@@ -43,13 +45,6 @@ const Header = () => {
             <NavigationMenuItem>
               <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} text-lg`}>
                 <Link to="/catalog">Anime</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} text-lg`}>
-                <Link to="/releases" className="text-lg">
-                  Releases
-                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>

@@ -18,11 +18,12 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
       <Link to={`/catalog/item/${animeData.mal_id}`}>
         <CardContent className="flex h-full items-center justify-center p-0">
           <img
-            className="h-full w-full cursor-pointer"
+            className="h-full w-full cursor-pointer object-cover"
             src={animeData.images.jpg.large_image_url}
             alt={animeData.title_english || animeData.title}
           />
-          <div className="absolute h-full w-full bg-primary text-white opacity-0 transition-opacity duration-300 group-hover:opacity-80">
+          <div
+            className="absolute h-full w-full bg-primary text-white opacity-0 transition-opacity duration-300 group-hover:opacity-80">
             <div className="flex flex-col items-center gap-5 text-wrap break-words p-4">
               <span className="text-xl font-bold">
                 {animeData.title_english || animeData.title}

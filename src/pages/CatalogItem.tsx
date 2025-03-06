@@ -127,16 +127,16 @@ const CatalogItem = () => {
             <div className="flex flex-col items-start gap-3 rounded-xl bg-secondaryBg p-4 text-left">
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-muted-foreground">Type</span>
-                <span>{fetchedAnime?.type}</span>
+                <span>{fetchedAnime?.type || 'Unknown'}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-muted-foreground">Source</span>
-                <span>{fetchedAnime?.source}</span>
+                <span>{fetchedAnime?.source || 'Unknown'}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-muted-foreground">Episodes</span>
                 <div className="flex gap-5">
-                  <span>{fetchedAnime?.episodes}</span>
+                  <span>{fetchedAnime?.episodes || 'Unknown'}</span>
                   <span className="text-muted-foreground">{fetchedAnime?.duration}</span>
                 </div>
               </div>
@@ -163,7 +163,7 @@ const CatalogItem = () => {
                   variant="outline"
                   className="border-destructive text-sm font-medium text-destructive"
                 >
-                  {fetchedAnime?.rating}
+                  {fetchedAnime?.rating || 'Unknown'}
                 </Badge>
               </div>
               <div className="flex flex-col gap-1">
