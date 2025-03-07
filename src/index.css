@@ -49,7 +49,7 @@
 
    .dark {
       --background: 0 0% 7%;
-      --foreground: 0 0% 83%;
+      --foreground: 0 0% 86%;
       --card: 224 71.4% 4.1%;
       --card-foreground: 210 20% 98%;
       --popover: 224 71.4% 4.1%;
@@ -60,7 +60,7 @@
       --secondary-hover: 138 17% 12%;
       --secondary-foreground: 0 0% 100%;
       --muted: 215 27.9% 16.9%;
-      --muted-foreground: 0 0% 43%;
+      --muted-foreground: 0 0% 55%;
       --accent: 0 0% 26%;
       --accent-foreground: 0 0% 83%;
       --destructive: 0 99% 60%;

@@ -6,5 +6,5 @@ export type IPagination = {
     count: number;
     total: number;
     per_page: number;
-  }
-}
+  };
+};

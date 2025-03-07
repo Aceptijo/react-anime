@@ -30,17 +30,17 @@ const Catalog = () => {
 
   useEffect(() => {
     fetchTopAnime(24, currentPage);
-  }, [fetchTopAnime]);
+  }, [fetchTopAnime, currentPage]);
 
   return (
     <div className="mt-20">
       <div className="flex w-full gap-5">
         {isLoading ? (
-          <div className="flex gap-5 w-full">
+          <div className="flex w-full gap-5">
             <div className="flex flex-col gap-5">
               <div className="flex">
                 <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
-                <div className="flex w-full gap-3 justify-end">
+                <div className="flex w-full justify-end gap-3">
                   <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
                   <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
                 </div>
@@ -51,21 +51,21 @@ const Catalog = () => {
                 ))}
               </div>
             </div>
-            <Skeleton className="w-1/5 h-1/3" />
+            <Skeleton className="h-1/3 w-1/5" />
           </div>
-
         ) : (
           <>
             <div className="flex w-4/5 flex-col items-start gap-3">
-              <div className="flex gap-3 items-start justify-between w-full">
+              <div className="flex w-full items-start justify-between gap-3">
                 <div className="flex gap-3">
-                  <span className="text-xl font-bold">Anime List</span>
-                  <span
-                    className="text-xl font-medium text-muted-foreground">{`(${pagination?.items.total})`}</span>
+                  <span className="text-xl font-medium">Anime List</span>
+                  <span className="text-xl font-medium text-muted-foreground">
+                    {`(${pagination?.items.total})`}
+                  </span>
                 </div>
                 <div className="flex gap-1">
                   <Select>
-                    <SelectTrigger className="flex gap-3 border-none text-foreground ">
+                    <SelectTrigger className="flex gap-3 border-none text-foreground">
                       <SelectValue placeholder="Descending order" className="text-secondary" />
                     </SelectTrigger>
                     <SelectContent className="border-secondaryBg bg-secondaryBg">
@@ -91,128 +91,136 @@ const Catalog = () => {
                   <AnimeCard anime={anime} key={anime.mal_id} />
                 ))}
               </div>
-              <Pagination className="mt-10">
-                <PaginationContent>
-                  {currentPage > 1 &&
-                    <PaginationItem>
-                      <PaginationPrevious href={`/react-anime/catalog?page=${currentPage - 1}`} />
-                    </PaginationItem>
-                  }
-                  {currentPage > 3 &&
-                    <>
+              {pagination?.last_visible_page && (
+                <Pagination className="mt-10">
+                  <PaginationContent className="text-muted-foreground">
+                    {currentPage > 1 && (
                       <PaginationItem>
-                        <PaginationLink href={`/react-anime/catalog?page=1`}>
-                          1
+                        <PaginationPrevious to={`?page=${currentPage - 1}`} />
+                      </PaginationItem>
+                    )}
+                    {currentPage > 2 && (
+                      <>
+                        <PaginationItem>
+                          <PaginationLink to={`?page=1`}>1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationEllipsis />
+                      </>
+                    )}
+                    {currentPage > 1 && (
+                      <PaginationItem>
+                        <PaginationLink to={`?page=${currentPage - 1}`}>
+                          {currentPage - 1}
                         </PaginationLink>
                       </PaginationItem>
-                      <PaginationItem>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    </>
-                  }
-                  {currentPage > 1 &&
+                    )}
                     <PaginationItem>
-                      <PaginationLink href={`/react-anime/catalog?page=${currentPage - 1}`}>
-                        {currentPage - 1}
+                      <PaginationLink
+                        isActive
+                        to={`?page=${currentPage}`}
+                        className="border-none text-foreground bg-primary"
+                      >
+                        {currentPage}
                       </PaginationLink>
                     </PaginationItem>
-                  }
-                  <PaginationItem>
-                    <PaginationLink href={`/react-anime/catalog?page=${currentPage}`} isActive>
-                      {currentPage}
-                    </PaginationLink>
-                  </PaginationItem>
-                  {currentPage !== pagination?.last_visible_page &&
-                    <>
+                    {currentPage < pagination.last_visible_page && (
                       <PaginationItem>
-                        <PaginationLink href={`/react-anime/catalog?page=${currentPage + 1}`}>
+                        <PaginationLink to={`?page=${currentPage + 1}`}>
                           {currentPage + 1}
                         </PaginationLink>
                       </PaginationItem>
-                      <PaginationItem>
+                    )}
+                    {currentPage < pagination.last_visible_page - 1 && (
+                      <>
                         <PaginationEllipsis />
-                      </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink to={`?page=${pagination.last_visible_page}`}>
+                            {pagination.last_visible_page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      </>
+                    )}
+                    {currentPage < pagination.last_visible_page && (
                       <PaginationItem>
-                        <PaginationLink
-                          href={`/react-anime/catalog?page=${pagination?.last_visible_page}`}>
-                          {pagination?.last_visible_page}
-                        </PaginationLink>
+                        <PaginationNext to={`?page=${currentPage + 1}`} />
                       </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href={`/react-anime/catalog?page=${currentPage + 1}`} />
-                      </PaginationItem>
-                    </>
-                  }
-                </PaginationContent>
-              </Pagination>
+                    )}
+                  </PaginationContent>
+                </Pagination>
+              )}
             </div>
             <div className="flex h-full w-1/5 gap-5">
-              <div
-                className="gap-5 w-full rounded-xl bg-secondaryBg py-3 px-3 flex flex-col items-start">
-                <div className="flex flex-col items-start w-full gap-2">
-                  <span className="font-medium ">Genres</span>
-                  <Input placeholder="Choose genres"
-                         className="bg-accent border-none text-foreground placeholder:text-input" />
+              <div className="flex w-full flex-col items-start gap-5 rounded-xl bg-secondaryBg px-3 py-3">
+                <div className="flex w-full flex-col items-start gap-2">
+                  <span className="font-medium">Genres</span>
+                  <Input
+                    placeholder="Choose genres"
+                    className="border-none bg-accent text-foreground placeholder:text-muted-foreground"
+                  />
                 </div>
                 <div className="flex flex-col items-start gap-2">
-                  <span className="font-medium ">Year</span>
+                  <span className="font-medium">Year</span>
                   <div className="flex gap-3">
-                    <Input placeholder="From"
-                           className="bg-accent border-none text-foreground placeholder:text-input" />
-                    <Input placeholder="To"
-                           className="bg-accent border-none text-foreground placeholder:text-input" />
+                    <Input
+                      placeholder="From"
+                      className="border-none bg-accent text-foreground placeholder:text-input"
+                    />
+                    <Input
+                      placeholder="To"
+                      className="border-none bg-accent text-foreground placeholder:text-input"
+                    />
                   </div>
                 </div>
-                <div className="flex flex-col w-full gap-2">
-                  <span className="font-medium text-left">Season</span>
+                <div className="flex w-full flex-col gap-2">
+                  <span className="text-left font-medium">Season</span>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
-                      <Label>Winter</Label>
+                      <Label className="text-xs">Winter</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
-                      <Label>Summer</Label>
+                      <Label className="text-xs">Summer</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
-                      <Label>Spring</Label>
+                      <Label className="text-xs">Spring</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
-                      <Label>Autumn</Label>
+                      <Label className="text-xs">Autumn</Label>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col w-full gap-2">
-                  <span className="font-medium text-left">Type</span>
+                <div className="flex w-full flex-col gap-2">
+                  <span className="text-left font-medium">Type</span>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>OVA</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>TV</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>ONA</Label>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col w-full gap-2">
-                  <span className="font-medium text-left">Status</span>
+                <div className="flex w-full flex-col gap-2">
+                  <span className="text-left font-medium">Status</span>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>Ongoing</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>Completed</Label>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2">
                       <Checkbox />
                       <Label>Announcement</Label>
                     </div>
