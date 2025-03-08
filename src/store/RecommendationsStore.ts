@@ -19,8 +19,15 @@ const useRecommendationsStore = create<RecommendationsStore>((set) => ({
       const response = await axios.get<{ data: IRecommendations[] }>(
         'https://api.jikan.moe/v4/recommendations/anime'
       );
-      const limit = response.data.data.slice(0, 20);
-      set({ anime: limit, isLoading: false });
+      const uniqueRecommendations = response.data.data
+        .reduce((acc, item) => {
+          if (!acc.some((rec) => rec.mal_id === item.mal_id)) {
+            acc.push(item);
+          }
+          return acc;
+        }, [] as IRecommendations[])
+        .slice(0, 20);
+      set({ anime: uniqueRecommendations, isLoading: false });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || err.message });

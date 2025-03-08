@@ -1,14 +1,12 @@
 import useCurrentSeasonStore from '@/store/CurrentSeasonStore.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Bookmark, Play, Star } from 'lucide-react';
 
 const MainSlider = () => {
   const { seasonAnime, isLoading } = useCurrentSeasonStore();
@@ -42,26 +40,26 @@ const MainSlider = () => {
                 className="flex h-screen items-center justify-between"
               >
                 <div className="flex basis-1/2 flex-col items-start gap-5">
-                  <h1 className="text-left text-5xl text-white">{anime.title_english}</h1>
-                  <div className="flex gap-2">
-                    <Badge className="text-1xl cursor-pointer gap-2 text-myYellow">
-                      <StarRoundedIcon />
+                  <h1 className="text-left text-4xl text-white">{anime.title_english}</h1>
+                  <div className="flex gap-2 items-center ">
+                    <Badge className="text-lg cursor-pointer gap-2 text-myYellow">
+                      <Star className="fill-myYellow w-5 h-5" />
                       {anime.score || 'No rating yet'}
                     </Badge>
-                    <Badge className="text-1xl cursor-pointer">{anime.year || 'Unknown'}</Badge>
+                    <Badge className="text-lg cursor-pointer">{anime.year || 'Unknown'}</Badge>
                     <Badge
                       variant="outline"
-                      className="text-1xl cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                      className="text-lg cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-white"
                     >
                       {selectRating()}
                     </Badge>
                     <Badge
                       variant="outline"
-                      className="text-1xl cursor-pointer border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                      className="text-lg cursor-pointer border-secondary text-secondary hover:bg-secondary hover:text-white"
                     >
                       {`${anime.status}`}
                     </Badge>
-                    <Badge className="text-1xl cursor-pointer bg-background hover:bg-background">
+                    <Badge className=" text-lg cursor-pointer bg-background hover:bg-background">
                       {`Ep: ${anime.episodes}`}
                     </Badge>
                   </div>
@@ -69,15 +67,17 @@ const MainSlider = () => {
                     {anime.synopsis || 'The anime does not have a description yet.'}
                   </p>
                   <div className="flex gap-3">
-                    <Button className="text-1xl bg-secondary text-secondary-foreground hover:bg-secondary-hover">
-                      <PlayArrowIcon />
-                      <Link to={`/catalog/item/${anime.mal_id}`}>Watch now</Link>
-                    </Button>
+                    <Link to={`/catalog/item/${anime.mal_id}`}>
+                      <Button className="bg-secondary text-sm text-secondary-foreground hover:bg-secondary-hover">
+                        <Play className="fill-white" />
+                        {'Watch now'}
+                      </Button>
+                    </Link>
                     <Button
-                      className="text-1xl bg-primary hover:bg-accent hover:text-accent-foreground"
+                      className="text-sm bg-primary hover:bg-accent hover:text-accent-foreground"
                       onClick={() => toast.success('Added to favorites!')}
                     >
-                      <BookmarkAddOutlinedIcon />
+                      <Bookmark className="fill-foreground stroke-foreground" />
                       <span>Add to favorites</span>
                     </Button>
                   </div>

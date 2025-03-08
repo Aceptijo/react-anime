@@ -14,6 +14,12 @@ export type IRecommendations = {
     };
     title: string;
     title_english?: string;
+    score?: number;
+    episodes?: number;
+    genres?: {
+      name: string;
+    }[];
+    rating: string;
   }[];
   content: string;
   user: {

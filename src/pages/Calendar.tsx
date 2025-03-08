@@ -27,7 +27,7 @@ const Calendar = () => {
                 value={day}
                 key={day}
                 onClick={() => handleDayChange(day)}
-                className="border text-base w-full border-secondaryBg px-10 py-3 data-[state=active]:border-secondary data-[state=active]:bg-secondary-hover data-[state=active]:text-secondary"
+                className="border text-base w-full border-secondaryBg px-10 py-3 data-[state=active]:border-secondary data-[state=active]:bg-secondary-background data-[state=active]:text-secondary"
               >
                 {day.slice(0, 1).toUpperCase() + day.slice(1)}
               </TabsTrigger>

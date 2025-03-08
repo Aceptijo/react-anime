@@ -9,4 +9,10 @@ export type ITopAnime = {
   title: string;
   title_english: string;
   synopsis: string;
+  episodes: number;
+  genres: {
+    name: string;
+  }[];
+  score: number;
+  rating: string;
 };

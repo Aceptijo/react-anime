@@ -19,6 +19,9 @@ export type ICurrentSeason = {
       maximum_image_url: string;
     };
   };
+  genres: {
+    name: string;
+  }[];
   approved: boolean;
   title: string;
   title_english: string;

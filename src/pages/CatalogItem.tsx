@@ -194,13 +194,13 @@ const CatalogItem = () => {
                 <TabsList className="bg-secondaryBg px-4 py-9">
                   <TabsTrigger
                     value="description"
-                    className="border border-secondaryBg px-10 py-3 text-lg data-[state=active]:border-secondary data-[state=active]:bg-secondary-hover"
+                    className="border border-secondaryBg px-10 py-3 text-base data-[state=active]:border-secondary data-[state=active]:text-secondary data-[state=active]:bg-secondary-background"
                   >
                     Description
                   </TabsTrigger>
                   <TabsTrigger
                     value="statistics"
-                    className="border border-secondaryBg px-10 py-3 text-lg data-[state=active]:border-secondary data-[state=active]:bg-secondary-hover"
+                    className="border border-secondaryBg px-10 py-3 text-base data-[state=active]:border-secondary data-[state=active]:text-secondary data-[state=active]:bg-secondary-background"
                   >
                     Statistics
                   </TabsTrigger>

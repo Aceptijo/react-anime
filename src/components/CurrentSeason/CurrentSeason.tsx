@@ -39,7 +39,7 @@ const CurrentSeason = () => {
             align: 'start',
           }}
         >
-          <span className="flex pb-5 pt-5 text-xl font-medium text-white">
+          <span className="flex pb-5 pt-5 text-xl font-bold">
             {`${formatLiteral()} ${seasonAnime[0]?.year} Anime`}
           </span>
           <CarouselContent>
