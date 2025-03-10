@@ -7,9 +7,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination.tsx';
-import useTopAnimeStore from '@/store/TopAnimeStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Select,
@@ -18,19 +17,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { Input } from '@/components/ui/input.tsx';
-import { Label } from '@/components/ui/label.tsx';
-import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
+import { ArrowDownNarrowWide, ArrowDownWideNarrow } from 'lucide-react';
+import { Button } from '@/components/ui/button.tsx';
+import Filters from '@/components/Filters/Filters.tsx';
+import useAnimeStore from '@/store/AnimeStore.ts';
+import useGenresStore from '@/store/GenresStore.ts';
 
 const Catalog = () => {
-  const { topAnime, pagination, fetchTopAnime, isLoading } = useTopAnimeStore();
+  const { anime, isLoading, fetchAnime, pagination } = useAnimeStore();
+  const { fetchGenres } = useGenresStore();
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
+  const [sort, setSort] = useState(true);
 
   useEffect(() => {
-    fetchTopAnime(24, currentPage);
-  }, [fetchTopAnime, currentPage]);
+    fetchAnime(currentPage);
+  }, [fetchAnime, currentPage]);
+
+  useEffect(() => {
+    fetchGenres();
+  }, []);
+
+  const handleSort = () => {
+    setSort(!sort);
+  };
 
   return (
     <div className="mt-20">
@@ -64,31 +75,28 @@ const Catalog = () => {
                   </span>
                 </div>
                 <div className="flex gap-1">
+                  <Button className="hover:bg-accent active:bg-accent" onClick={handleSort}>
+                    {sort ? (
+                      <ArrowDownWideNarrow className="text-foreground" />
+                    ) : (
+                      <ArrowDownNarrowWide className="text-foreground " />
+                    )}
+                  </Button>
                   <Select>
                     <SelectTrigger className="flex gap-3 border-none text-foreground">
-                      <SelectValue placeholder="Descending order" className="text-secondary" />
+                      <SelectValue placeholder="Order by" className="text-secondary" />
                     </SelectTrigger>
                     <SelectContent className="border-secondaryBg bg-secondaryBg">
-                      <SelectItem value="popularity">Popularity</SelectItem>
-                      <SelectItem value="releaseDate">Release Date</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select>
-                    <SelectTrigger className="flex gap-3 border-none text-foreground">
-                      <SelectValue placeholder="By rating" />
-                    </SelectTrigger>
-                    <SelectContent className="border-secondaryBg bg-secondaryBg">
-                      <SelectItem value="highLow">High to Low</SelectItem>
-                      <SelectItem value="lowHigh">Low to High</SelectItem>
-                      <SelectItem value="mostRated">Most Rated</SelectItem>
-                      <SelectItem value="LeastRated">Least Rated</SelectItem>
+                      <SelectItem value="orderByTitle">Title</SelectItem>
+                      <SelectItem value="orderByScore">Score</SelectItem>
+                      <SelectItem value="orderByPopularity">Popularity</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="grid grid-cols-4 gap-5">
-                {topAnime.map((anime) => (
-                  <AnimeCard anime={anime} key={anime.mal_id} />
+                {anime.map((item) => (
+                  <AnimeCard anime={item} key={item.mal_id} />
                 ))}
               </div>
               {pagination?.last_visible_page && (
@@ -149,85 +157,7 @@ const Catalog = () => {
                 </Pagination>
               )}
             </div>
-            <div className="flex h-full w-1/5 gap-5">
-              <div className="flex w-full flex-col items-start gap-5 rounded-xl bg-secondaryBg px-3 py-3">
-                <div className="flex w-full flex-col items-start gap-2">
-                  <span className="font-medium">Genres</span>
-                  <Input
-                    placeholder="Choose genres"
-                    className="border-none bg-accent text-foreground placeholder:text-muted-foreground"
-                  />
-                </div>
-                <div className="flex flex-col items-start gap-2">
-                  <span className="font-medium">Year</span>
-                  <div className="flex gap-3">
-                    <Input
-                      placeholder="From"
-                      className="border-none bg-accent text-foreground placeholder:text-input"
-                    />
-                    <Input
-                      placeholder="To"
-                      className="border-none bg-accent text-foreground placeholder:text-input"
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                  <span className="text-left font-medium">Season</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label className="text-xs">Winter</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label className="text-xs">Summer</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label className="text-xs">Spring</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label className="text-xs">Autumn</Label>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                  <span className="text-left font-medium">Type</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>OVA</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>TV</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>ONA</Label>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                  <span className="text-left font-medium">Status</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>Ongoing</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>Completed</Label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Checkbox />
-                      <Label>Announcement</Label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Filters currentPage={currentPage} />
           </>
         )}
       </div>

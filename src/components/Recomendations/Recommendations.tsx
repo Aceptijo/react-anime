@@ -38,7 +38,7 @@ const Recommendations = () => {
           <span className="flex py-5 text-xl font-bold">Recommended</span>
           <CarouselContent>
             {anime.map((item) => (
-              <CarouselItem key={item.entry[0].mal_id} className="w-1/5 basis-1/5">
+              <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">
                 <AnimeCard anime={item} />
               </CarouselItem>
             ))}
