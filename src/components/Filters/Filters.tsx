@@ -14,7 +14,6 @@ import useGenresStore from '@/store/GenresStore.ts';
 import useAnimeStore from '@/store/AnimeStore.ts';
 import * as React from 'react';
 
-const FILTER_SEASONS = ['Winter', 'Summer', 'Spring', 'Autumn'];
 const FILTER_TYPES = ['OVA', 'TV', 'ONA'];
 const FILTER_STATUSES = ['Airing', 'Completed', 'Upcoming'];
 
@@ -40,7 +39,7 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
             </SelectTrigger>
             <SelectContent className="bg-primary">
               {genres.map((genre) => (
-                <SelectItem value={genre.name} key={genre.mal_id}>
+                <SelectItem value={`${genre.mal_id}`} key={genre.mal_id}>
                   {genre.name}
                 </SelectItem>
               ))}
@@ -76,26 +75,6 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
             onValueChange={(value) => setFilters({ score: value[0] })}
             className="bg-accent rounded-xl"
           />
-        </div>
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-left font-medium">Season</span>
-          <div className="grid grid-cols-2 gap-1">
-            {FILTER_SEASONS.map((season) => (
-              <div className="flex gap-2 items-center" key={season}>
-                <Checkbox
-                  checked={filters.season.includes(season)}
-                  onCheckedChange={(checked) =>
-                    setFilters({
-                      season: checked
-                        ? [...filters.season, season]
-                        : filters.season.filter((s) => s !== season),
-                    })
-                  }
-                />
-                <Label>{season}</Label>
-              </div>
-            ))}
-          </div>
         </div>
         <div className="flex w-full flex-col gap-1">
           <span className="text-left font-medium">Type</span>

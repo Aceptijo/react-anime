@@ -3,7 +3,8 @@ export type IFilters = {
   yearFrom: string;
   yearTo: string;
   score: number;
-  season: string[];
   type: string[];
   status: string[];
+  orderBy: string;
+  sort: string;
 };

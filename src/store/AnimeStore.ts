@@ -8,24 +8,25 @@ type AnimeStore = {
   anime: IAnimeById[];
   filters: IFilters;
   pagination: IPagination | null;
-  isLoading: boolean;
   error: null | string;
-  fetchAnime: (page: number) => Promise<void>;
+  isLoading: boolean;
   setFilters: (filters: Partial<IFilters>) => void;
+  fetchAnime: (page: number) => Promise<void>;
 };
 
 const useAnimeStore = create<AnimeStore>((set, get) => ({
   anime: [],
+  pagination: null,
   filters: {
     genres: '',
     yearFrom: '',
     yearTo: '',
     score: 0,
-    season: [],
     type: [],
     status: [],
+    orderBy: 'popularity',
+    sort: 'asc',
   },
-  pagination: null,
   isLoading: false,
   error: null,
   setFilters: (newFilters) =>
@@ -36,24 +37,36 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
     set({ isLoading: true, error: null });
 
     const { filters } = get();
+
     const params = new URLSearchParams();
 
     if (filters.genres) params.append('genres', filters.genres);
     if (filters.yearFrom) params.append('start_date', `${filters.yearFrom}-01-01`);
     if (filters.yearTo) params.append('end_date', `${filters.yearTo}-12-31`);
-    if (filters.score) params.append('score', String(filters.score));
-    if (filters.season.length) params.append('season', filters.season.join(','));
-    if (filters.type.length) params.append('type', filters.type.join(','));
-    if (filters.status.length) params.append('status', filters.status.join(','));
+    if (filters.score) params.append('min_score', String(filters.score));
+    if (filters.type.length) params.append('type', filters.type.join(',').toLowerCase());
+    if (filters.status.length) params.append('status', filters.status.join(',').toLowerCase());
+    if (filters.orderBy) params.append('order_by', filters.orderBy);
+    if (filters.sort) params.append('sort', filters.sort);
 
     try {
-      const response = await axios.get(`https://api.jikan.moe/v4/anime?${params}`, {
+      const response = await axios.get<{
+        data: IAnimeById[];
+        pagination: IPagination;
+      }>(`https://api.jikan.moe/v4/anime?${params}`, {
         params: {
           page,
           limit: 24,
         },
       });
-      set({ anime: response.data.data, pagination: response.data.pagination, isLoading: false });
+      const uniqueResponse = Array.from(
+        new Set(response.data.data.map((item) => JSON.stringify(item)))
+      ).map((item) => JSON.parse(item));
+      set({
+        anime: uniqueResponse,
+        pagination: response.data.pagination,
+        isLoading: false,
+      });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || err.message || 'Filters error' });

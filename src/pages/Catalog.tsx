@@ -8,7 +8,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination.tsx';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Select,
@@ -25,23 +25,18 @@ import useAnimeStore from '@/store/AnimeStore.ts';
 import useGenresStore from '@/store/GenresStore.ts';
 
 const Catalog = () => {
-  const { anime, isLoading, fetchAnime, pagination } = useAnimeStore();
+  const { anime, isLoading, fetchAnime, pagination, setFilters, filters } = useAnimeStore();
   const { fetchGenres } = useGenresStore();
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
-  const [sort, setSort] = useState(true);
 
   useEffect(() => {
     fetchAnime(currentPage);
-  }, [fetchAnime, currentPage]);
+  }, [fetchAnime, currentPage, filters.sort, filters.orderBy]);
 
   useEffect(() => {
     fetchGenres();
   }, []);
-
-  const handleSort = () => {
-    setSort(!sort);
-  };
 
   return (
     <div className="mt-20">
@@ -75,21 +70,34 @@ const Catalog = () => {
                   </span>
                 </div>
                 <div className="flex gap-1">
-                  <Button className="hover:bg-accent active:bg-accent" onClick={handleSort}>
-                    {sort ? (
+                  {filters.sort === 'desc' ? (
+                    <Button
+                      className="hover:bg-accent active:bg-accent"
+                      onClick={() => setFilters({ sort: 'asc' })}
+                    >
                       <ArrowDownWideNarrow className="text-foreground" />
-                    ) : (
+                    </Button>
+                  ) : (
+                    <Button
+                      className="hover:bg-accent active:bg-accent"
+                      onClick={() => setFilters({ sort: 'desc' })}
+                    >
                       <ArrowDownNarrowWide className="text-foreground " />
-                    )}
-                  </Button>
-                  <Select>
+                    </Button>
+                  )}
+                  <Select
+                    value={filters.orderBy}
+                    onValueChange={(value) => setFilters({ orderBy: value })}
+                  >
                     <SelectTrigger className="flex gap-3 border-none text-foreground">
                       <SelectValue placeholder="Order by" className="text-secondary" />
                     </SelectTrigger>
                     <SelectContent className="border-secondaryBg bg-secondaryBg">
-                      <SelectItem value="orderByTitle">Title</SelectItem>
-                      <SelectItem value="orderByScore">Score</SelectItem>
-                      <SelectItem value="orderByPopularity">Popularity</SelectItem>
+                      <SelectItem value="title">Title</SelectItem>
+                      <SelectItem value="score">Score</SelectItem>
+                      <SelectItem value="episodes">Episodes</SelectItem>
+                      <SelectItem value="popularity">Popularity</SelectItem>
+                      <SelectItem value="rank">Rank</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
