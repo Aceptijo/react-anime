@@ -4,6 +4,7 @@ import Catalog from '@/pages/Catalog.tsx';
 import Calendar from '@/pages/Calendar.tsx';
 import Main from '@/components/Main/Main.tsx';
 import CatalogItem from '@/pages/CatalogItem.tsx';
+import Profile from '@/pages/Profile.tsx';
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/catalog/item/:id" element={<CatalogItem />} />
       <Route path="/calendar" element={<Calendar />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 };

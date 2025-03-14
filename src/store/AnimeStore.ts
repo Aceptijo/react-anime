@@ -22,8 +22,8 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
     yearFrom: '',
     yearTo: '',
     score: 0,
-    type: [],
-    status: [],
+    type: '',
+    status: '',
     orderBy: 'popularity',
     sort: 'asc',
   },
@@ -44,8 +44,8 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
     if (filters.yearFrom) params.append('start_date', `${filters.yearFrom}-01-01`);
     if (filters.yearTo) params.append('end_date', `${filters.yearTo}-12-31`);
     if (filters.score) params.append('min_score', String(filters.score));
-    if (filters.type.length) params.append('type', filters.type.join(',').toLowerCase());
-    if (filters.status.length) params.append('status', filters.status.join(',').toLowerCase());
+    if (filters.type) params.append('type', `${filters.type}`);
+    if (filters.status) params.append('status', `${filters.status}`);
     if (filters.orderBy) params.append('order_by', filters.orderBy);
     if (filters.sort) params.append('sort', filters.sort);
 

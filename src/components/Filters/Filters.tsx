@@ -7,12 +7,12 @@ import {
 } from '@/components/ui/select.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Slider } from '@/components/ui/slider.tsx';
-import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import useGenresStore from '@/store/GenresStore.ts';
 import useAnimeStore from '@/store/AnimeStore.ts';
 import * as React from 'react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.tsx';
 
 const FILTER_TYPES = ['OVA', 'TV', 'ONA'];
 const FILTER_STATUSES = ['Airing', 'Completed', 'Upcoming'];
@@ -30,6 +30,7 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
       <div className="flex w-full flex-col items-start gap-5 rounded-xl bg-secondaryBg px-3 py-3">
         <div className="flex w-full flex-col items-start gap-2">
           <span className="font-medium">Genres</span>
+
           <Select
             value={filters.genres || ''}
             onValueChange={(value) => setFilters({ genres: value })}
@@ -78,43 +79,41 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
         </div>
         <div className="flex w-full flex-col gap-1">
           <span className="text-left font-medium">Type</span>
-          <div className="grid grid-cols-2 gap-1">
+          <RadioGroup
+            value={filters.type}
+            onValueChange={(value) => setFilters({ type: value })}
+            className="grid grid-cols-2"
+          >
             {FILTER_TYPES.map((type) => (
               <div className="flex gap-2 items-center" key={type}>
-                <Checkbox
-                  checked={filters.type.includes(type)}
-                  onCheckedChange={(checked) =>
-                    setFilters({
-                      type: checked
-                        ? [...filters.type, type]
-                        : filters.type.filter((s) => s !== type),
-                    })
-                  }
+                <RadioGroupItem
+                  value={type}
+                  id={type}
+                  className="text-secondary border border-primary data-[state=checked]:border-secondary"
                 />
-                <Label>{type}</Label>
+                <Label htmlFor={type}>{type}</Label>
               </div>
             ))}
-          </div>
+          </RadioGroup>
         </div>
         <div className="flex w-full flex-col gap-1">
           <span className="text-left font-medium">Status</span>
-          <div className="grid grid-cols-2 gap-1">
+          <RadioGroup
+            value={filters.status}
+            onValueChange={(value) => setFilters({ status: value })}
+            className="grid grid-cols-2"
+          >
             {FILTER_STATUSES.map((status) => (
-              <div className="flex gap-2" key={status}>
-                <Checkbox
-                  checked={filters.status.includes(status)}
-                  onCheckedChange={(checked) =>
-                    setFilters({
-                      status: checked
-                        ? [...filters.status, status]
-                        : filters.status.filter((s) => s !== status),
-                    })
-                  }
+              <div className="flex gap-2 items-center" key={status}>
+                <RadioGroupItem
+                  value={status}
+                  id={status}
+                  className="text-secondary border border-primary data-[state=checked]:border-secondary"
                 />
-                <Label>{status}</Label>
+                <Label htmlFor={status}>{status}</Label>
               </div>
             ))}
-          </div>
+          </RadioGroup>
         </div>
         <div className="flex justify-between w-full gap-2">
           <Button className="w-full">Clear</Button>
