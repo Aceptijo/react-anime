@@ -35,7 +35,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
               ) : (
                 <>
                   <Badge className="bg-accent px-3 py-2 rounded-xl text-sm text-white">{`${animeData.episodes || '???'} Episodes`}</Badge>
-                  <span className="text-xl font-bold">
+                  <span className="text-xl font-bold line-clamp-5">
                     {animeData.title_english || animeData.title}
                   </span>
                   <div className="flex gap-2 flex-wrap justify-center">

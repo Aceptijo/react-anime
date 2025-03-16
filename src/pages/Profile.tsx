@@ -6,6 +6,7 @@ import { UserRoundPen } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import useUserStore from '@/store/UserStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
+import { logout } from '@/lib/auth.ts';
 
 const PROFILE_STATISTICS = ['Watching', 'Planned', 'Favorites', 'Dropped'];
 
@@ -37,6 +38,9 @@ const Profile = () => {
               <FaLinkedin />
             </Button>
           </div>
+          <Button variant="destructive" onClick={logout}>
+            Log Out
+          </Button>
           <Button className="h-7 w-7 absolute right-5 top-5">
             <UserRoundPen />
           </Button>

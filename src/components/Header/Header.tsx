@@ -12,10 +12,12 @@ import Logo from '@/components/icons/Logo.tsx';
 import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { BellRing } from 'lucide-react';
+import useAuthStore from '@/store/authStore.ts';
 
 const Header = () => {
   const { randomAnime, fetchRandomAnime } = useRandomAnimeStore();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   const handleRandomClick = async () => {
     await fetchRandomAnime();
@@ -29,51 +31,72 @@ const Header = () => {
       <div className="ml-auto mr-auto flex min-w-[1280px] items-center gap-5 justify-between">
         <div className="flex">
           <Logo />
-          <NavigationMenu className="ml-4">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()}`}>
-                  <Link to="/">Home</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                  <Link to="/top">Top</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                  <Button onClick={handleRandomClick} className="text-sm">
-                    Random
-                  </Button>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                  <Link to="/catalog">Anime</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                  <Link to="/calendar">Calendar</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          {user && (
+            <NavigationMenu className="ml-4">
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()}`}>
+                    <Link to="/">Home</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Link to="/top">Top</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Button onClick={handleRandomClick} className="text-sm">
+                      Random
+                    </Button>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Link to="/catalog">Anime</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Link to="/calendar">Calendar</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Link to="/users">Users</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
         <div className="flex gap-5 items-center">
-          <Input
-            placeholder="Find your anime"
-            className="border-none bg-primary text-foreground placeholder:text-input"
-          />
-          <Button className="bg-background">
-            <BellRing />
-          </Button>
-          <Link to="/profile">
-            <Avatar className="h-9 w-9">
-              <AvatarImage src="https://github.com/shadcn.png" />
-            </Avatar>
-          </Link>
+          {user && (
+            <>
+              <Input
+                placeholder="Find your anime"
+                className="border-none bg-primary text-foreground placeholder:text-input"
+              />
+              <Button className="bg-background">
+                <BellRing />
+              </Button>
+              <Link to="/profile/scandave">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                </Avatar>
+              </Link>
+            </>
+          )}
+          {!user && (
+            <>
+              <Link to="/sign-in">
+                <Button>Sign In</Button>
+              </Link>
+              <Link to="/sign-up">
+                <Button>Sign Up</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
