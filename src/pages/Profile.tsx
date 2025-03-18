@@ -7,11 +7,18 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import useUserStore from '@/store/UserStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { logout } from '@/lib/auth.ts';
+import { useNavigate } from 'react-router-dom';
 
 const PROFILE_STATISTICS = ['Watching', 'Planned', 'Favorites', 'Dropped'];
 
 const Profile = () => {
   const { watched } = useUserStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/sign-in');
+  };
 
   return (
     <div className="mt-20 w-full flex gap-5">
@@ -38,7 +45,7 @@ const Profile = () => {
               <FaLinkedin />
             </Button>
           </div>
-          <Button variant="destructive" onClick={logout}>
+          <Button variant="destructive" onClick={handleLogout}>
             Log Out
           </Button>
           <Button className="h-7 w-7 absolute right-5 top-5">

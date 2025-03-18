@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { loginWithGithub, loginWithGoogle } from '@/lib/auth.ts';
+import { login, loginWithGithub, loginWithGoogle, register } from '@/lib/auth.ts';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import useAuthStore from '@/store/authStore.ts';
 
 type FormData = {
   email: string;
@@ -17,22 +18,35 @@ type AuthFormProps = {
 
 const AuthForm: FC<AuthFormProps> = ({ title }) => {
   const { register: formRegister, handleSubmit } = useForm<FormData>();
+  const { user } = useAuthStore();
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: FormData) => {
+    try {
+      if (user) {
+        await login(data.email, data.password);
+      } else {
+        await register(data.email, data.password);
+      }
+    } catch (err) {
+      console.error('Auth error', err);
+    }
+  };
 
   return (
-    <div className="w-1/3 mt-80 flex flex-col gap-5 items-center">
+    <div className="w-1/3 mt-80 flex flex-col gap-7 items-center">
       <h1 className="text-2xl font-bold">{title}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full">
         <Input
           type="email"
           placeholder="Email"
+          autoComplete="off"
           {...formRegister('email')}
           className="py-5 border-none bg-secondaryBg"
         />
         <Input
           type="password"
           placeholder="Password"
+          autoComplete="off"
           {...formRegister('password')}
           className="py-5 border-none bg-secondaryBg"
         />
@@ -48,10 +62,10 @@ const AuthForm: FC<AuthFormProps> = ({ title }) => {
           <span className="font-medium">Forgot password?</span>
           <span className="text-muted-foreground">OR</span>
           <div className="flex gap-3">
-            <Button onClick={loginWithGoogle}>
+            <Button onClick={loginWithGoogle} className="hover:text-[#4080ee] hover:bg-foreground">
               <FaGoogle />
             </Button>
-            <Button onClick={loginWithGithub}>
+            <Button onClick={loginWithGithub} className="hover:text-black hover:bg-foreground">
               <FaGithub />
             </Button>
           </div>

@@ -16,6 +16,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.tsx';
 
 const FILTER_TYPES = ['OVA', 'TV', 'ONA'];
 const FILTER_STATUSES = ['Airing', 'Completed', 'Upcoming'];
+const FILTER_RATINGS = [
+  { label: 'G - All Ages', value: 'g' },
+  { label: 'PG - Children', value: 'pg' },
+  { label: 'PG-13 - Teens 13 or older', value: 'pg13' },
+  { label: 'R-17 - (violence & profanity)', value: 'r17' },
+  { label: 'R+ - Mild Nudity', value: 'r' },
+  { label: 'Rx - Hentai', value: 'rx' },
+];
 
 type FiltersProps = {
   currentPage: number;
@@ -23,14 +31,13 @@ type FiltersProps = {
 
 const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
   const { genres } = useGenresStore();
-  const { fetchAnime, setFilters, filters } = useAnimeStore();
+  const { fetchAnime, setFilters, filters, removeFilters } = useAnimeStore();
 
   return (
     <div className="flex h-full w-1/5 gap-5">
       <div className="flex w-full flex-col items-start gap-5 rounded-xl bg-secondaryBg px-3 py-3">
         <div className="flex w-full flex-col items-start gap-2">
           <span className="font-medium">Genres</span>
-
           <Select
             value={filters.genres || ''}
             onValueChange={(value) => setFilters({ genres: value })}
@@ -42,6 +49,24 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
               {genres.map((genre) => (
                 <SelectItem value={`${genre.mal_id}`} key={genre.mal_id}>
                   {genre.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex w-full flex-col items-start gap-2">
+          <span className="font-medium">Rating</span>
+          <Select
+            value={filters.rating || ''}
+            onValueChange={(value) => setFilters({ rating: value })}
+          >
+            <SelectTrigger className="bg-primary border-none">
+              <SelectValue placeholder="Select rating"></SelectValue>
+            </SelectTrigger>
+            <SelectContent className={'bg-primary'}>
+              {FILTER_RATINGS.map(({ label, value }) => (
+                <SelectItem value={value} key={value}>
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -116,7 +141,9 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
           </RadioGroup>
         </div>
         <div className="flex justify-between w-full gap-2">
-          <Button className="w-full">Clear</Button>
+          <Button className="w-full" onClick={removeFilters}>
+            Clear
+          </Button>
           <Button
             className="w-full bg-secondary hover:bg-secondary-hover font-medium text-white"
             onClick={() => fetchAnime(currentPage)}

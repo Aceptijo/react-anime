@@ -10,9 +10,9 @@ import useRandomAnimeStore from '@/store/RandomAnimeStore.ts';
 import { Button } from '@/components/ui/button.tsx';
 import Logo from '@/components/icons/Logo.tsx';
 import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
-import { Input } from '@/components/ui/input.tsx';
 import { BellRing } from 'lucide-react';
 import useAuthStore from '@/store/authStore.ts';
+import SearchAnime from '@/components/SearchAnime/SearchAnime.tsx';
 
 const Header = () => {
   const { randomAnime, fetchRandomAnime } = useRandomAnimeStore();
@@ -73,10 +73,7 @@ const Header = () => {
         <div className="flex gap-5 items-center">
           {user && (
             <>
-              <Input
-                placeholder="Find your anime"
-                className="border-none bg-primary text-foreground placeholder:text-input"
-              />
+              <SearchAnime />
               <Button className="bg-background">
                 <BellRing />
               </Button>

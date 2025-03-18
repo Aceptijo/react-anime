@@ -11,6 +11,7 @@ type AnimeStore = {
   error: null | string;
   isLoading: boolean;
   setFilters: (filters: Partial<IFilters>) => void;
+  removeFilters: () => void;
   fetchAnime: (page: number) => Promise<void>;
 };
 
@@ -24,6 +25,7 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
     score: 0,
     type: '',
     status: '',
+    rating: '',
     orderBy: 'popularity',
     sort: 'asc',
   },
@@ -32,6 +34,20 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
   setFilters: (newFilters) =>
     set((state) => ({
       filters: { ...state.filters, ...newFilters },
+    })),
+  removeFilters: () =>
+    set(() => ({
+      filters: {
+        genres: '',
+        yearFrom: '',
+        yearTo: '',
+        score: 0,
+        type: '',
+        status: '',
+        rating: '',
+        orderBy: 'popularity',
+        sort: 'asc',
+      },
     })),
   fetchAnime: async (page: number) => {
     set({ isLoading: true, error: null });
@@ -45,6 +61,7 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
     if (filters.yearTo) params.append('end_date', `${filters.yearTo}-12-31`);
     if (filters.score) params.append('min_score', String(filters.score));
     if (filters.type) params.append('type', `${filters.type}`);
+    if (filters.rating) params.append('rating', filters.rating);
     if (filters.status) params.append('status', `${filters.status}`);
     if (filters.orderBy) params.append('order_by', filters.orderBy);
     if (filters.sort) params.append('sort', filters.sort);

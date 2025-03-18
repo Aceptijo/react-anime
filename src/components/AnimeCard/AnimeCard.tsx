@@ -35,7 +35,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
               ) : (
                 <>
                   <Badge className="bg-accent px-3 py-2 rounded-xl text-sm text-white">{`${animeData.episodes || '???'} Episodes`}</Badge>
-                  <span className="text-xl font-bold line-clamp-5">
+                  <span className="text-xl font-bold line-clamp-5 break-all">
                     {animeData.title_english || animeData.title}
                   </span>
                   <div className="flex gap-2 flex-wrap justify-center">
@@ -47,7 +47,9 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
                   </div>
                   <div className="flex items-center gap-6">
                     <span className="text-sm text-foreground">
-                      {animeData.rating?.includes('17') ? 'R-17+' : 'PG-13'}
+                      {animeData.rating?.includes('PG-13')
+                        ? 'PG-13'
+                        : animeData.rating?.slice(0, animeData.rating?.indexOf(' - '))}
                     </span>
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 fill-white" />

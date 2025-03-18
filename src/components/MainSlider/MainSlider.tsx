@@ -12,7 +12,9 @@ const MainSlider = () => {
   const { seasonAnime, isLoading } = useCurrentSeasonStore();
 
   const selectRating = () => {
-    return seasonAnime[0]?.rating.includes('17') ? 'R - 17+' : 'PG - 13';
+    return seasonAnime[0]?.rating.includes('PG-13')
+      ? 'PG-13'
+      : seasonAnime[0].rating.slice(0, seasonAnime[0].rating.indexOf('-'));
   };
 
   return (
@@ -40,26 +42,28 @@ const MainSlider = () => {
                 className="flex h-screen items-center justify-between"
               >
                 <div className="flex basis-1/2 flex-col items-start gap-5">
-                  <h1 className="text-left text-4xl text-white">{anime.title_english}</h1>
+                  <h1 className="text-left text-4xl text-white font-medium">
+                    {anime.title_english}
+                  </h1>
                   <div className="flex gap-2 items-center ">
-                    <Badge className="text-lg cursor-pointer gap-2 text-myYellow">
+                    <Badge className="text-sm cursor-pointer gap-2 py-1 text-myYellow">
                       <Star className="fill-myYellow w-5 h-5" />
                       {anime.score || 'No rating yet'}
                     </Badge>
-                    <Badge className="text-lg cursor-pointer">{anime.year || 'Unknown'}</Badge>
+                    <Badge className="text-sm cursor-pointer py-1">{anime.year || 'Unknown'}</Badge>
                     <Badge
                       variant="outline"
-                      className="text-lg cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-white"
+                      className="text-sm py-1 cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-white"
                     >
                       {selectRating()}
                     </Badge>
                     <Badge
                       variant="outline"
-                      className="text-lg cursor-pointer border-secondary text-secondary hover:bg-secondary hover:text-white"
+                      className="text-sm py-1 cursor-pointer border-secondary text-secondary hover:bg-secondary hover:text-white"
                     >
                       {`${anime.status}`}
                     </Badge>
-                    <Badge className=" text-lg cursor-pointer bg-background hover:bg-background">
+                    <Badge className=" text-sm py-1 cursor-pointer bg-background hover:bg-background">
                       {`Ep: ${anime.episodes}`}
                     </Badge>
                   </div>

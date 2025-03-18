@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useAnimeByIdStore from '@/store/AnimeByIdStore.ts';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge.tsx';
@@ -171,7 +171,7 @@ const CatalogItem = () => {
                 <div className="flex flex-wrap gap-1">
                   {fetchedAnime?.genres.map((genre) => (
                     <Badge className="font-medium" key={genre.mal_id}>
-                      {genre.name}
+                      <Link to={`/catalog?genre=${genre.mal_id}`}>{genre.name}</Link>
                     </Badge>
                   ))}
                 </div>

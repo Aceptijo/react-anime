@@ -29,10 +29,17 @@ const Catalog = () => {
   const { fetchGenres } = useGenresStore();
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
+  const genreFromUrl = searchParams.get('genre') || '';
 
   useEffect(() => {
     fetchAnime(currentPage);
   }, [fetchAnime, currentPage, filters.sort, filters.orderBy]);
+
+  useEffect(() => {
+    if (genreFromUrl) {
+      setFilters({ genres: genreFromUrl });
+    }
+  }, [genreFromUrl]);
 
   useEffect(() => {
     fetchGenres();

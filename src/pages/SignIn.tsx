@@ -1,4 +1,4 @@
-import AuthForm from '@/components/AuthForm.tsx';
+import AuthForm from '@/components/AuthForm/AuthForm.tsx';
 
 const SignIn = () => {
   return (

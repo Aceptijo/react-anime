@@ -30,7 +30,6 @@ const Top = () => {
             <div className="grid w-full grid-cols-5 gap-5">
               {topAnime?.map((anime) => <AnimeCard anime={anime} key={anime.mal_id} />)}
             </div>
-
           </div>
         </div>
       )}

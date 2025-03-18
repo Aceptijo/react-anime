@@ -7,4 +7,5 @@ export type IFilters = {
   status: string;
   orderBy: string;
   sort: string;
+  rating: string;
 };
