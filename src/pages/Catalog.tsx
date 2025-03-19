@@ -33,8 +33,6 @@ const Catalog = () => {
   const statusFromUrl = searchParams.get('status') || '';
   const ratingFromUrl = searchParams.get('rating') || '';
 
-  console.log(filters);
-
   useEffect(() => {
     fetchAnime(currentPage);
   }, [fetchAnime, currentPage, filters.sort, filters.orderBy]);

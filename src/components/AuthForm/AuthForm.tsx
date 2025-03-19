@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button.tsx';
 import { login, loginWithGithub, loginWithGoogle, register } from '@/lib/auth.ts';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '@/store/authStore.ts';
+import { auth } from '@/lib/firebaseConfig.ts';
 
 type FormData = {
   email: string;
@@ -19,6 +20,7 @@ type AuthFormProps = {
 const AuthForm: FC<AuthFormProps> = ({ title }) => {
   const { register: formRegister, handleSubmit } = useForm<FormData>();
   const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -26,6 +28,9 @@ const AuthForm: FC<AuthFormProps> = ({ title }) => {
         await login(data.email, data.password);
       } else {
         await register(data.email, data.password);
+        if (auth.currentUser) {
+          navigate('/');
+        }
       }
     } catch (err) {
       console.error('Auth error', err);
@@ -33,7 +38,7 @@ const AuthForm: FC<AuthFormProps> = ({ title }) => {
   };
 
   return (
-    <div className="w-1/3 mt-80 flex flex-col gap-7 items-center">
+    <div className="w-1/3 flex flex-col gap-7 items-center">
       <h1 className="text-2xl font-bold">{title}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full">
         <Input

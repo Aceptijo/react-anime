@@ -31,11 +31,10 @@ const useAnimeStore = create<AnimeStore>((set, get) => ({
   },
   isLoading: false,
   error: null,
-  setFilters: (newFilters) => {
+  setFilters: (newFilters) =>
     set((state) => ({
       filters: { ...state.filters, ...newFilters },
-    }));
-  },
+    })),
   removeFilters: () =>
     set(() => ({
       filters: {

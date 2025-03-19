@@ -9,6 +9,7 @@ import Users from '@/pages/Users.tsx';
 import SignIn from '@/pages/SignIn.tsx';
 import SignUp from '@/pages/SignUp.tsx';
 import useAuthStore from '@/store/authStore.ts';
+import ProtectedRoute from '@/components/AppRouter/ProtectedRoute.tsx';
 
 const AppRouter = () => {
   const { user } = useAuthStore();
@@ -17,12 +18,16 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="*" element={<Navigate to="/" />} />
-      <Route path="/top" element={<Top />} />
-      <Route path="/catalog" element={<Catalog />} />
-      <Route path="/catalog/item/:id" element={<CatalogItem />} />
-      <Route path="/calendar" element={<Calendar />} />
-      <Route path="/profile/:username" element={<Profile />} />
-      <Route path="/users" element={<Users />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/catalog/item/:id" element={<CatalogItem />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/top" element={<Top />} />
+      </Route>
+
       <Route path="/sign-in" element={user ? <Navigate to="/" /> : <SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
