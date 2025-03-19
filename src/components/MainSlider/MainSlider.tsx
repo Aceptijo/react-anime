@@ -11,12 +11,6 @@ import { Bookmark, Play, Star } from 'lucide-react';
 const MainSlider = () => {
   const { seasonAnime, isLoading } = useCurrentSeasonStore();
 
-  const selectRating = () => {
-    return seasonAnime[0]?.rating.includes('PG-13')
-      ? 'PG-13'
-      : seasonAnime[0].rating.slice(0, seasonAnime[0].rating.indexOf('-'));
-  };
-
   return (
     <>
       {isLoading ? (
@@ -55,7 +49,7 @@ const MainSlider = () => {
                       variant="outline"
                       className="text-sm py-1 cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-white"
                     >
-                      {selectRating()}
+                      {anime.rating}
                     </Badge>
                     <Badge
                       variant="outline"

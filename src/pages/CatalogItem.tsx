@@ -24,6 +24,24 @@ const CatalogItem = () => {
   const { id } = useParams();
   const [selectedValue, setSelectedValue] = useState<string>('');
 
+  const statusMapping: Record<string, string> = {
+    'Currently Airing': 'Airing',
+    'Finished Airing': 'Complete',
+    'Not yet aired': 'Upcoming',
+  };
+
+  const ratingMapping: Record<string, string> = {
+    'G - All Ages': 'g',
+    'PG - Children': 'pg',
+    'PG-13 - Teens 13 or older': 'pg13',
+    'R - 17+ (violence & profanity)': 'r17',
+    'R+ - Mild Nudity': 'r',
+    'Rx - Hentai': 'rx',
+  };
+
+  const getStatusForUrl = (status: string) => statusMapping[status] || '';
+  const getRatingForUrl = (rating: string) => ratingMapping[rating] || '';
+
   useEffect(() => {
     fetchById(Number(id));
     fetchStatistics(Number(id));
@@ -72,7 +90,7 @@ const CatalogItem = () => {
                       <ToggleGroupItem
                         value="favourites"
                         aria-label="Favourites"
-                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-destructive"
+                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-destructive data-[state=on]:text-white"
                       >
                         <FavoriteRoundedIcon />
                       </ToggleGroupItem>
@@ -86,7 +104,7 @@ const CatalogItem = () => {
                       <ToggleGroupItem
                         value="watching"
                         aria-label="Watching"
-                        className="w-full bg-primary hover:bg-accent hover:text-secondary-foreground data-[state=on]:bg-secondary"
+                        className="w-full bg-primary hover:bg-accent hover:text-secondary-foreground data-[state=on]:bg-secondary data-[state=on]:text-white"
                       >
                         <VisibilityIcon />
                       </ToggleGroupItem>
@@ -100,7 +118,7 @@ const CatalogItem = () => {
                       <ToggleGroupItem
                         value="planned"
                         aria-label="Planned"
-                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-secondary"
+                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-secondary data-[state=on]:text-white"
                       >
                         <WatchLaterIcon />
                       </ToggleGroupItem>
@@ -114,7 +132,7 @@ const CatalogItem = () => {
                       <ToggleGroupItem
                         value="dropped"
                         aria-label="Dropped"
-                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-gray-400"
+                        className="w-full bg-primary hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-gray-400 data-[state=on]:text-white"
                       >
                         <DeleteIcon />
                       </ToggleGroupItem>
@@ -135,9 +153,9 @@ const CatalogItem = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-muted-foreground">Episodes</span>
-                <div className="flex gap-5">
+                <div className="flex gap-2">
                   <span>{fetchedAnime?.episodes || 'Unknown'}</span>
-                  <span className="text-muted-foreground">{fetchedAnime?.duration}</span>
+                  <span className="text-muted-foreground">{`[${fetchedAnime?.duration}]`}</span>
                 </div>
               </div>
               <div className="flex flex-col">
@@ -150,29 +168,33 @@ const CatalogItem = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-sm font-medium text-muted-foreground">Status</span>
-                <Badge
-                  variant="outline"
-                  className="border-secondary text-sm font-medium text-secondary"
-                >
-                  {fetchedAnime?.status}
-                </Badge>
+                <Link to={`/catalog?status=${getStatusForUrl(String(fetchedAnime?.status))}`}>
+                  <Badge
+                    variant="outline"
+                    className="border-secondary text-sm font-medium text-secondary hover:bg-secondary hover:text-white"
+                  >
+                    {fetchedAnime?.status}
+                  </Badge>
+                </Link>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-sm font-medium text-muted-foreground">Rating</span>
-                <Badge
-                  variant="outline"
-                  className="border-destructive text-sm font-medium text-destructive"
-                >
-                  {fetchedAnime?.rating || 'Unknown'}
-                </Badge>
+                <Link to={`/catalog?rating=${getRatingForUrl(String(fetchedAnime?.rating))}`}>
+                  <Badge
+                    variant="outline"
+                    className="border-destructive text-sm font-medium text-destructive hover:bg-destructive hover:text-white"
+                  >
+                    {fetchedAnime?.rating || 'Unknown'}
+                  </Badge>
+                </Link>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-sm font-medium text-muted-foreground">Genres</span>
                 <div className="flex flex-wrap gap-1">
                   {fetchedAnime?.genres.map((genre) => (
-                    <Badge className="font-medium" key={genre.mal_id}>
-                      <Link to={`/catalog?genre=${genre.mal_id}`}>{genre.name}</Link>
-                    </Badge>
+                    <Link to={`/catalog?genre=${genre.mal_id}`} key={genre.mal_id}>
+                      <Badge className="font-medium">{genre.name}</Badge>
+                    </Link>
                   ))}
                 </div>
               </div>

@@ -14,8 +14,8 @@ import useAnimeStore from '@/store/AnimeStore.ts';
 import * as React from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.tsx';
 
-const FILTER_TYPES = ['OVA', 'TV', 'ONA'];
-const FILTER_STATUSES = ['Airing', 'Completed', 'Upcoming'];
+const FILTER_TYPES = ['OVA', 'TV', 'ONA', 'Movie', 'Music', 'Special', 'CM', 'PV'];
+const FILTER_STATUSES = ['Airing', 'Complete', 'Upcoming'];
 const FILTER_RATINGS = [
   { label: 'G - All Ages', value: 'g' },
   { label: 'PG - Children', value: 'pg' },

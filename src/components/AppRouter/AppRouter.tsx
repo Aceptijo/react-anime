@@ -8,8 +8,11 @@ import Profile from '@/pages/Profile.tsx';
 import Users from '@/pages/Users.tsx';
 import SignIn from '@/pages/SignIn.tsx';
 import SignUp from '@/pages/SignUp.tsx';
+import useAuthStore from '@/store/authStore.ts';
 
 const AppRouter = () => {
+  const { user } = useAuthStore();
+
   return (
     <Routes>
       <Route path="/" element={<Main />} />
@@ -20,7 +23,7 @@ const AppRouter = () => {
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/profile/:username" element={<Profile />} />
       <Route path="/users" element={<Users />} />
-      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/sign-in" element={user ? <Navigate to="/" /> : <SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>
   );

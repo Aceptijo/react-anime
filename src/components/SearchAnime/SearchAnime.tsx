@@ -1,23 +1,38 @@
 import { Input } from '@/components/ui/input.tsx';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useSearchStore from '@/store/searchStore.ts';
 import { Link } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 const SearchAnime = () => {
   const { query, result, setQuery, searchAnime, isLoading, setOpen, isOpen } = useSearchStore();
+  const searchRef = useRef(null);
 
   useEffect(() => {
     searchAnime(query);
   }, [query]);
 
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (searchRef.current && !(searchRef.current as HTMLElement).contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [setOpen]);
+
   return (
-    <div className="flex relative">
+    <div className="relative w-[250px] focus-within:w-[425px] transition-all" ref={searchRef}>
       <Input
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="Find your anime"
-        className="border-none bg-primary text-foreground placeholder:text-input transition-all focus:w-[425px] focus:outline-none "
+        className="border-none bg-primary w-full text-foreground placeholder:text-input transition-all focus:w-full focus:outline-none "
       />
       {isOpen && (
         <div className="absolute top-10 flex flex-col bg-primary text-left w-full rounded-md overflow-hidden">

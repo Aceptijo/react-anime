@@ -26,10 +26,14 @@ import useGenresStore from '@/store/GenresStore.ts';
 
 const Catalog = () => {
   const { anime, isLoading, fetchAnime, pagination, setFilters, filters } = useAnimeStore();
-  const { fetchGenres } = useGenresStore();
+  const { fetchGenres, genres } = useGenresStore();
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
   const genreFromUrl = searchParams.get('genre') || '';
+  const statusFromUrl = searchParams.get('status') || '';
+  const ratingFromUrl = searchParams.get('rating') || '';
+
+  console.log(filters);
 
   useEffect(() => {
     fetchAnime(currentPage);
@@ -38,11 +42,17 @@ const Catalog = () => {
   useEffect(() => {
     if (genreFromUrl) {
       setFilters({ genres: genreFromUrl });
+    } else if (statusFromUrl) {
+      setFilters({ status: statusFromUrl });
+    } else if (ratingFromUrl) {
+      setFilters({ rating: ratingFromUrl });
     }
-  }, [genreFromUrl]);
+  }, [genreFromUrl, statusFromUrl, ratingFromUrl]);
 
   useEffect(() => {
-    fetchGenres();
+    if (genres.length === 0) {
+      fetchGenres();
+    }
   }, []);
 
   return (

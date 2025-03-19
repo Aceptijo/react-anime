@@ -61,7 +61,7 @@ const Header = () => {
                     <Link to="/calendar">Calendar</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem hidden={true}>
                   <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
                     <Link to="/users">Users</Link>
                   </NavigationMenuLink>
