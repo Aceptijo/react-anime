@@ -42,7 +42,7 @@ const MainSlider = () => {
                   <div className="flex gap-2 items-center ">
                     <Badge className="text-sm cursor-pointer gap-2 py-1 text-myYellow">
                       <Star className="fill-myYellow w-5 h-5" />
-                      {anime.score || 'No rating yet'}
+                      {anime.score || 'Unknown'}
                     </Badge>
                     <Badge className="text-sm cursor-pointer py-1">{anime.year || 'Unknown'}</Badge>
                     <Badge

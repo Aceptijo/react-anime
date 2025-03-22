@@ -17,10 +17,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import useStatisticsStore from '@/store/StatisticsStore.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
+import useReviewsStore from '@/store/reviewsStore.ts';
+import ReviewCard from '@/components/ReviewCard.tsx';
 
 const CatalogItem = () => {
   const { fetchById, fetchedAnime, isLoading: isLoadingAnime } = useAnimeByIdStore();
   const { statistics, fetchStatistics, isLoading: isLoadingStatistics } = useStatisticsStore();
+  const { reviews, fetchReviews, isLoading: isLoadingReviews } = useReviewsStore();
   const { id } = useParams();
   const [selectedValue, setSelectedValue] = useState<string>('');
 
@@ -44,6 +47,7 @@ const CatalogItem = () => {
 
   useEffect(() => {
     fetchById(Number(id));
+    fetchReviews(Number(id));
     fetchStatistics(Number(id));
   }, [id]);
 
@@ -292,6 +296,20 @@ const CatalogItem = () => {
               ) : (
                 <div className="flex h-full items-center justify-center text-xl font-bold">
                   API does not contain a trailer for this anime! :(
+                </div>
+              )}
+            </div>
+            <div className="bg-secondaryBg rounded-xl p-4 flex flex-col gap-2">
+              <span className="text-lg font-medium text-left text-secondary-foreground">
+                Reviews
+              </span>
+              {isLoadingReviews ? (
+                <Skeleton className="h-[272px]" />
+              ) : reviews.length > 0 ? (
+                reviews.map((review) => <ReviewCard review={review} key={review.mal_id} />)
+              ) : (
+                <div className="h-[172px] flex justify-center items-center font-medium text-lg">
+                  No reviews yet :(
                 </div>
               )}
             </div>

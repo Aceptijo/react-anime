@@ -29,12 +29,12 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
             <div className="flex flex-col h-full justify-between items-center gap-5 text-wrap break-words p-4">
               {isRecommendations ? (
                 <div className="flex flex-col justify-center h-full gap-5 text-wrap break-words">
-                  <span className="text-xl font-bold">{animeData.title}</span>
+                  <span className="text-xl font-bold line-clamp-3">{animeData.title}</span>
                   <span className="line-clamp-6 break-words">{anime.content}</span>
                 </div>
               ) : (
                 <>
-                  <Badge className="bg-accent px-3 py-2 rounded-xl text-sm text-white">{`${animeData.episodes || '???'} Episodes`}</Badge>
+                  <Badge className="bg-accent px-3 py-2 rounded-xl text-sm text-white hover:bg-accent">{`${animeData.episodes || '???'} Episodes`}</Badge>
                   <span className="text-xl font-bold line-clamp-5 break-all">
                     {animeData.title_english || animeData.title}
                   </span>
@@ -60,7 +60,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime }) => {
                   </div>
                 </>
               )}
-              <Button className="bg-accent rounded-xl text-white ">
+              <Button className="bg-accent rounded-xl text-white hover:bg-accent">
                 <Play className="fill-white stroke-white" />
                 {'Watch now'}
               </Button>
