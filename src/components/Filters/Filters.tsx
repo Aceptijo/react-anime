@@ -9,8 +9,8 @@ import { Input } from '@/components/ui/input.tsx';
 import { Slider } from '@/components/ui/slider.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import useGenresStore from '@/store/GenresStore.ts';
-import useAnimeStore from '@/store/AnimeStore.ts';
+import useGenresStore from '@/store/genresStore.ts';
+import useAnimeStore from '@/store/animeStore.ts';
 import * as React from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.tsx';
 
@@ -35,17 +35,17 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
 
   return (
     <div className="flex h-full w-1/5 gap-5">
-      <div className="flex w-full flex-col items-start gap-5 rounded-xl bg-secondaryBg px-3 py-3">
+      <div className="flex w-full flex-col items-start gap-5 rounded-lg bg-secondaryBg px-3 py-3">
         <div className="flex w-full flex-col items-start gap-2">
-          <span className="font-medium">Genres</span>
+          <span className="font-montserrat text-white text-sm">Genres</span>
           <Select
             value={filters.genres || ''}
             onValueChange={(value) => setFilters({ genres: value })}
           >
-            <SelectTrigger className="bg-primary border-none">
+            <SelectTrigger className="bg-accent border-none">
               <SelectValue placeholder="Select genres" />
             </SelectTrigger>
-            <SelectContent className="bg-primary">
+            <SelectContent className="bg-accent text-foreground border-none">
               {genres.map((genre) => (
                 <SelectItem value={`${genre.mal_id}`} key={genre.mal_id}>
                   {genre.name}
@@ -55,15 +55,15 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
           </Select>
         </div>
         <div className="flex w-full flex-col items-start gap-2">
-          <span className="font-medium">Rating</span>
+          <span className="font-montserrat text-white text-sm">Rating</span>
           <Select
             value={filters.rating || ''}
             onValueChange={(value) => setFilters({ rating: value })}
           >
-            <SelectTrigger className="bg-primary border-none">
+            <SelectTrigger className="bg-accent border-none">
               <SelectValue placeholder="Select rating"></SelectValue>
             </SelectTrigger>
-            <SelectContent className={'bg-primary'}>
+            <SelectContent className="bg-accent text-foreground border-none">
               {FILTER_RATINGS.map(({ label, value }) => (
                 <SelectItem value={value} key={value}>
                   {label}
@@ -73,67 +73,71 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
           </Select>
         </div>
         <div className="flex flex-col items-start gap-2">
-          <span className="font-medium">Year</span>
+          <span className="font-montserrat text-white text-sm">Year</span>
           <div className="flex gap-3">
             <Input
               placeholder="From"
               value={filters.yearFrom}
               onChange={(e) => setFilters({ yearFrom: e.target.value })}
-              className="border-none bg-primary text-foreground placeholder:text-input"
+              className="border-none bg-accent text-white"
             />
             <Input
               placeholder="To"
               value={filters.yearTo}
               onChange={(e) => setFilters({ yearTo: e.target.value })}
-              className="border-none bg-primary text-foreground placeholder:text-input"
+              className="border-none bg-accent text-white"
             />
           </div>
         </div>
-        <div className="w-full flex flex-col gap-1">
-          <div className="flex w-full justify-between">
-            <span className="font-medium">Score</span>
-            <span className="text-secondary font-medium">{filters.score}</span>
+        <div className=" w-full flex flex-col gap-1">
+          <span className="font-montserrat text-white text-sm text-left">Score</span>
+          <div className="flex gap-2 items-center">
+            <Slider
+              max={10}
+              step={0.5}
+              value={[filters.score]}
+              onValueChange={(value) => setFilters({ score: value[0] })}
+              className="bg-accent rounded-xl"
+            />
+            <span className="text-secondary text-white text-sm font-montserrat font-bold w-[30px]">
+              {filters.score}
+            </span>
           </div>
-          <Slider
-            max={10}
-            step={0.5}
-            value={[filters.score]}
-            onValueChange={(value) => setFilters({ score: value[0] })}
-            className="bg-accent rounded-xl"
-          />
         </div>
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-left font-medium">Type</span>
+        <div className="flex w-full flex-col gap-2">
+          <span className="text-left font-montserrat text-white text-sm">Type</span>
           <RadioGroup
             value={filters.type}
             onValueChange={(value) => setFilters({ type: value })}
             className="grid grid-cols-2"
           >
             {FILTER_TYPES.map((type) => (
-              <div className="flex gap-2 items-center" key={type}>
+              <div className="flex gap-2 items-center " key={type}>
                 <RadioGroupItem
                   value={type}
                   id={type}
-                  className="text-secondary border border-primary data-[state=checked]:border-secondary"
+                  className="text-secondary border border-primary data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
                 />
-                <Label htmlFor={type}>{type}</Label>
+                <Label htmlFor={type} className="">
+                  {type}
+                </Label>
               </div>
             ))}
           </RadioGroup>
         </div>
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-left font-medium">Status</span>
+        <div className="flex w-full flex-col gap-2">
+          <span className="text-left font-montserrat text-white text-sm">Status</span>
           <RadioGroup
             value={filters.status}
             onValueChange={(value) => setFilters({ status: value })}
             className="grid grid-cols-2"
           >
             {FILTER_STATUSES.map((status) => (
-              <div className="flex gap-2 items-center" key={status}>
+              <div className="flex gap-2 items-center " key={status}>
                 <RadioGroupItem
                   value={status}
                   id={status}
-                  className="text-secondary border border-primary data-[state=checked]:border-secondary"
+                  className="text-secondary border border-primary data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
                 />
                 <Label htmlFor={status}>{status}</Label>
               </div>
@@ -145,7 +149,8 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
             Clear
           </Button>
           <Button
-            className="w-full bg-secondary hover:bg-secondary-hover font-medium text-white"
+            variant={'secondary'}
+            className="w-full text-white"
             onClick={() => fetchAnime(currentPage)}
           >
             Find

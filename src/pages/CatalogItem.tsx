@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import useAnimeByIdStore from '@/store/AnimeByIdStore.ts';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge.tsx';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
@@ -15,10 +14,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
-import useStatisticsStore from '@/store/StatisticsStore.ts';
+import useStatisticsStore from '@/store/statisticsStore.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import useReviewsStore from '@/store/reviewsStore.ts';
 import ReviewCard from '@/components/ReviewCard.tsx';
+import { ImFileEmpty } from 'react-icons/im';
+import useAnimeByIdStore from '@/store/animeByIdStore.ts';
 
 const CatalogItem = () => {
   const { fetchById, fetchedAnime, isLoading: isLoadingAnime } = useAnimeByIdStore();
@@ -52,7 +53,7 @@ const CatalogItem = () => {
   }, [id]);
 
   return (
-    <div className="mt-20 flex w-full gap-5">
+    <div className="mt-24 flex w-full gap-5">
       {isLoadingAnime && isLoadingStatistics ? (
         <>
           <div className="flex w-1/4 flex-col gap-3">
@@ -175,7 +176,7 @@ const CatalogItem = () => {
                 <Link to={`/catalog?status=${getStatusForUrl(String(fetchedAnime?.status))}`}>
                   <Badge
                     variant="outline"
-                    className="border-secondary text-sm font-medium text-secondary hover:bg-secondary hover:text-white"
+                    className="border-secondary font-medium text-secondary hover:bg-secondary hover:text-white"
                   >
                     {fetchedAnime?.status}
                   </Badge>
@@ -186,7 +187,7 @@ const CatalogItem = () => {
                 <Link to={`/catalog?rating=${getRatingForUrl(String(fetchedAnime?.rating))}`}>
                   <Badge
                     variant="outline"
-                    className="border-destructive text-sm font-medium text-destructive hover:bg-destructive hover:text-white"
+                    className="border-destructive font-medium text-destructive hover:bg-destructive hover:text-white"
                   >
                     {fetchedAnime?.rating || 'Unknown'}
                   </Badge>
@@ -309,7 +310,7 @@ const CatalogItem = () => {
                 reviews.map((review) => <ReviewCard review={review} key={review.mal_id} />)
               ) : (
                 <div className="h-[172px] flex justify-center items-center font-medium text-lg">
-                  No reviews yet :(
+                  No reviews yet <ImFileEmpty className="ml-2" />
                 </div>
               )}
             </div>

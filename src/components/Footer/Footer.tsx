@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button.tsx';
 const Footer = () => {
   return (
     <footer className="mt-20 flex h-20 w-full items-center justify-between">
-      <a href={'https://github.com/Aceptijo/react-anime'} className="text-sm">
+      <a href={'https://github.com/Aceptijo/react-anime'} className="text-xs text-muted-foreground">
         2025 React-anime
       </a>
       <div className="flex gap-2">

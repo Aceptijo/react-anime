@@ -11,7 +11,9 @@ export default {
         desktop: '1280px',
       },
       fontFamily: {
-        sans: ['Montserrat', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -48,6 +50,7 @@ export default {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
+          active: 'hsl(var(--accent-active))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

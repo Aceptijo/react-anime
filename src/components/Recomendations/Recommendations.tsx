@@ -1,4 +1,4 @@
-import useRecommendationsStore from '@/store/RecommendationsStore.ts';
+import useRecommendationsStore from '@/store/recommendationsStore.ts';
 import { useEffect } from 'react';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import {
@@ -35,7 +35,9 @@ const Recommendations = () => {
             align: 'start',
           }}
         >
-          <span className="flex py-5 text-xl font-bold">Recommended</span>
+          <span className="flex py-5 text-lg font-montserrat text-white font-bold">
+            Recommended
+          </span>
           <CarouselContent>
             {anime.map((item) => (
               <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">

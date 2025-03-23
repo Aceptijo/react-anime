@@ -1,4 +1,4 @@
-import useTopAnimeStore from '@/store/TopAnimeStore.ts';
+import useTopAnimeStore from '@/store/topAnimeStore.ts';
 import { useEffect } from 'react';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
@@ -11,7 +11,7 @@ const Top = () => {
   }, [fetchTopAnime]);
 
   return (
-    <div className="mt-20">
+    <div className="mt-24">
       {isLoading ? (
         <div className="flex flex-col gap-5">
           <Skeleton className="h-10 w-1/5 bg-secondaryBg" />
@@ -25,7 +25,7 @@ const Top = () => {
         <div className="flex gap-5">
           <div className="flex flex-col gap-5">
             <div className="flex justify-between ">
-              <span className="text-xl font-bold">Top</span>
+              <span className="text-lg text-white font-montserrat font-bold">Top</span>
             </div>
             <div className="grid w-full grid-cols-5 gap-5">
               {topAnime?.map((anime) => <AnimeCard anime={anime} key={anime.mal_id} />)}

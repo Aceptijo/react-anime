@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { FaGithub, FaTelegramPlane, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { UserRoundPen } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
-import useUserStore from '@/store/UserStore.ts';
+import useUserStore from '@/store/userStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { logout } from '@/lib/auth.ts';
 import { useNavigate } from 'react-router-dom';

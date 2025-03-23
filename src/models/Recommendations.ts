@@ -20,6 +20,8 @@ export type IRecommendations = {
       name: string;
     }[];
     rating: string;
+    type?: string;
+    year?: number;
   }[];
   content: string;
   user: {

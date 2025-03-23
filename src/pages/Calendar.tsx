@@ -1,6 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import { useEffect, useState } from 'react';
-import useSchedulesStore from '@/store/SchedulesStore.ts';
+import useSchedulesStore from '@/store/schedulesStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
@@ -18,16 +18,17 @@ const Calendar = () => {
   }, [scheduledDay]);
 
   return (
-    <div className="mt-20">
+    <div className="mt-24">
       <div className="flex flex-col gap-5">
         <Tabs defaultValue={scheduledDay}>
-          <TabsList className="flex h-full w-full justify-between bg-secondaryBg p-0">
+          <TabsList className="flex h-full w-full gap-2 justify-between bg-secondaryBg p-2 rounded-lg">
             {daysOfWeek.map((day) => (
               <TabsTrigger
                 value={day}
                 key={day}
                 onClick={() => handleDayChange(day)}
-                className="border text-base w-full border-secondaryBg px-10 py-3 data-[state=active]:border-secondary data-[state=active]:bg-secondary-background data-[state=active]:text-secondary"
+                className="border text-sm w-full text-white border-none font-montserrat px-10 py-3 data-[state=active]:bg-secondary data-[state=active]:text-white
+                "
               >
                 {day.slice(0, 1).toUpperCase() + day.slice(1)}
               </TabsTrigger>

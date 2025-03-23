@@ -21,8 +21,8 @@ import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { ArrowDownNarrowWide, ArrowDownWideNarrow } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import Filters from '@/components/Filters/Filters.tsx';
-import useAnimeStore from '@/store/AnimeStore.ts';
-import useGenresStore from '@/store/GenresStore.ts';
+import useAnimeStore from '@/store/animeStore.ts';
+import useGenresStore from '@/store/genresStore.ts';
 
 const Catalog = () => {
   const { anime, isLoading, fetchAnime, pagination, setFilters, filters } = useAnimeStore();
@@ -54,7 +54,7 @@ const Catalog = () => {
   }, []);
 
   return (
-    <div className="mt-20">
+    <div className="mt-24">
       <div className="flex w-full gap-5">
         {isLoading ? (
           <div className="flex w-full gap-5">
@@ -79,35 +79,37 @@ const Catalog = () => {
             <div className="flex w-4/5 flex-col items-start gap-3">
               <div className="flex w-full items-start justify-between gap-3">
                 <div className="flex gap-3">
-                  <span className="text-xl font-bold">Anime List</span>
-                  <span className="text-xl font-medium text-muted-foreground">
+                  <span className="text-lg font-bold font-montserrat text-white">Anime List</span>
+                  <span className="text-lg font-medium font-montserrat text-muted-foreground">
                     {`(${pagination?.items.total})`}
                   </span>
                 </div>
                 <div className="flex gap-1">
                   {filters.sort === 'desc' ? (
                     <Button
-                      className="hover:bg-accent active:bg-accent"
+                      size="icon"
+                      className="size-10 px-3"
                       onClick={() => setFilters({ sort: 'asc' })}
                     >
-                      <ArrowDownWideNarrow className="text-foreground" />
+                      <ArrowDownWideNarrow className="text-white" />
                     </Button>
                   ) : (
                     <Button
-                      className="hover:bg-accent active:bg-accent"
+                      size="icon"
+                      className="size-10 px-3"
                       onClick={() => setFilters({ sort: 'desc' })}
                     >
-                      <ArrowDownNarrowWide className="text-foreground " />
+                      <ArrowDownNarrowWide className="text-white " />
                     </Button>
                   )}
                   <Select
                     value={filters.orderBy}
                     onValueChange={(value) => setFilters({ orderBy: value })}
                   >
-                    <SelectTrigger className="flex gap-3 border-none text-foreground">
+                    <SelectTrigger className="flex gap-3 bg-accent border-none">
                       <SelectValue placeholder="Order by" className="text-secondary" />
                     </SelectTrigger>
-                    <SelectContent className="border-secondaryBg bg-secondaryBg">
+                    <SelectContent className="bg-accent border-none">
                       <SelectItem value="title">Title</SelectItem>
                       <SelectItem value="score">Score</SelectItem>
                       <SelectItem value="episodes">Episodes</SelectItem>

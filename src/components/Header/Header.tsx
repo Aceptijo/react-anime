@@ -6,7 +6,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import useRandomAnimeStore from '@/store/RandomAnimeStore.ts';
+import useRandomAnimeStore from '@/store/randomAnimeStore.ts';
 import { Button } from '@/components/ui/button.tsx';
 import Logo from '@/components/icons/Logo.tsx';
 import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
@@ -27,16 +27,18 @@ const Header = () => {
   };
 
   return (
-    <header className="absolute mb-20 flex h-20 w-full z-50">
+    <header className="fixed bg-background mb-20 flex h-20 w-full z-50">
       <div className="ml-auto mr-auto flex min-w-[1280px] items-center gap-5 justify-between">
         <div className="flex">
-          <Logo />
           {user && (
-            <NavigationMenu className="ml-4">
+            <NavigationMenu>
               <NavigationMenuList>
+                <Link to={'/'} className="mr-3 group ">
+                  <Logo />
+                </Link>
                 <NavigationMenuItem>
-                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()}`}>
-                    <Link to="/">Home</Link>
+                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
+                    <Link to="/catalog">Anime</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -46,24 +48,14 @@ const Header = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                    <Button onClick={handleRandomClick} className="text-sm">
-                      Random
-                    </Button>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                    <Link to="/catalog">Anime</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
                     <Link to="/calendar">Calendar</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem hidden={true}>
+                <NavigationMenuItem>
                   <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} `}>
-                    <Link to="/users">Users</Link>
+                    <Button onClick={handleRandomClick} className="text-sm shadow-none">
+                      Random
+                    </Button>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
@@ -74,11 +66,11 @@ const Header = () => {
           {user && (
             <>
               <SearchAnime />
-              <Button className="bg-background">
+              <Button className="bg-background size-10">
                 <BellRing />
               </Button>
               <Link to="/profile/scandave">
-                <Avatar className="h-9 w-9">
+                <Avatar className="h-10 w-10">
                   <AvatarImage src="https://github.com/shadcn.png" />
                 </Avatar>
               </Link>

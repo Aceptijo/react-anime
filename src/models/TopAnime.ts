@@ -15,4 +15,6 @@ export type ITopAnime = {
   }[];
   score: number;
   rating: string;
+  type: string;
+  year: number;
 };

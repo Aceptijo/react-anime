@@ -1,4 +1,4 @@
-import useCurrentSeasonStore from '@/store/CurrentSeasonStore.ts';
+import useCurrentSeasonStore from '@/store/currentSeasonStore.ts';
 import { useEffect } from 'react';
 import {
   Carousel,
@@ -39,7 +39,7 @@ const CurrentSeason = () => {
             align: 'start',
           }}
         >
-          <span className="flex pb-5 pt-5 text-xl font-bold">
+          <span className="flex pb-5 pt-5 text-lg text-white font-montserrat font-bold">
             {`${formatLiteral()} ${seasonAnime[0]?.year} Anime`}
           </span>
           <CarouselContent>

@@ -33,10 +33,10 @@ const SearchAnime = () => {
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="Find your anime"
-        className="border-none bg-primary w-full text-foreground placeholder:text-input transition-all focus:w-full focus:outline-none "
+        className="border-none bg-accent text-white w-full transition-all focus:w-full focus:outline-none "
       />
       {isOpen && (
-        <div className="absolute top-10 flex flex-col bg-primary text-left w-full rounded-md overflow-hidden">
+        <div className="absolute top-11 flex flex-col bg-primary text-left w-full rounded-md overflow-hidden">
           {isLoading ? (
             <>
               {Array.from({ length: 5 }).map((_, index) => (
@@ -57,27 +57,29 @@ const SearchAnime = () => {
                     setQuery('');
                   }}
                 >
-                  <div className="flex gap-3 items-center border-accent hover:bg-accent px-2 py-2">
-                    <div className="w-10 h-[3.5rem] rounded-md flex items-center justify-center overflow-hidden bg-primary">
+                  <div className="flex gap-3 items-center bg-accent border-accent hover:bg-accent-active/30 group px-3 py-3 active:bg-accent-active">
+                    <div className="w-10 h-[3.5rem] flex items-center justify-center bg-accent group-hover:bg-accent-active/30">
                       <img
                         src={`${anime.images.jpg.image_url}`}
                         alt={`${anime.title_english}`}
-                        className="h-full object-cover w-full rounded-md"
+                        className="h-full object-cover w-full rounded-lg"
                       />
                     </div>
                     <div className="w-4/5 flex flex-col gap-2">
-                      <span className="text-sm line-clamp-1 font-medium">
+                      <span className="text-sm line-clamp-1 text-white font-montserrat font-medium">
                         {anime.title_english || anime.title}
                       </span>
 
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 items-center">
                         <div className="flex gap-1 items-center">
                           <FaStar className="w-3 h-3 text-myYellow" />
-                          <span className="text-myYellow text-sm">{anime.score || 'Unknown'}</span>
+                          <span className="text-myYellow text-xs">{anime.score || 'Unknown'}</span>
                         </div>
-                        <span className="text-sm">{anime.type}</span>
+                        <span className="text-xs text-muted">{anime.type}</span>
                         <div className="flex gap-1 items-center">
-                          <span className="text-sm">{anime.aired.string || 'Unknown'}</span>
+                          <span className="text-xs text-muted">
+                            {anime.aired.string || 'Unknown'}
+                          </span>
                         </div>
                       </div>
                     </div>

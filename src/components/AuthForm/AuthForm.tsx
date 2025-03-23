@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '@/store/authStore.ts';
 import { auth } from '@/lib/firebaseConfig.ts';
+import { toast } from 'sonner';
 
 type FormData = {
   email: string;
@@ -39,34 +40,33 @@ const AuthForm: FC<AuthFormProps> = ({ title }) => {
 
   return (
     <div className="w-1/3 flex flex-col gap-7 items-center">
-      <h1 className="text-2xl font-bold">{title}</h1>
+      <h1 className="text-2xl font-montserrat text-white font-bold">{title}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full">
         <Input
           type="email"
           placeholder="Email"
           autoComplete="off"
           {...formRegister('email')}
-          className="py-5 border-none bg-secondaryBg"
+          className="border-none bg-accent text-white h-12"
         />
         <Input
           type="password"
           placeholder="Password"
           autoComplete="off"
           {...formRegister('password')}
-          className="py-5 border-none bg-secondaryBg"
+          className="border-none bg-accent text-white h-12"
         />
-        <Button
-          type="submit"
-          className="bg-secondary-background text-secondary hover:bg-secondary py-5 hover:text-white"
-        >
+        <Button variant="secondary" type="submit" className=" h-12 hover:text-white">
           {title}
         </Button>
       </form>
       {title === 'Sign In' && (
         <>
-          <span className="font-medium">Forgot password?</span>
-          <span className="text-muted-foreground">OR</span>
-          <div className="flex gap-3">
+          <Button variant="link" onClick={() => toast('Your password: 123 :)')} className="text-sm">
+            Forgot password?
+          </Button>
+          <span className="text-muted-foreground text-sm">OR</span>
+          <div className="flex gap-1">
             <Button onClick={loginWithGoogle} className="hover:text-[#4080ee] hover:bg-foreground">
               <FaGoogle />
             </Button>
@@ -76,12 +76,14 @@ const AuthForm: FC<AuthFormProps> = ({ title }) => {
           </div>
         </>
       )}
-      <div className="flex gap-3">
-        <span className="text-muted-foreground">
+      <div className="flex items-center">
+        <span className="text-muted-foreground text-sm">
           {title === 'Sign In' ? 'No account yet?' : 'Already have an account?'}
         </span>
         <Link to={title === 'Sign In' ? '/sign-up' : '/sign-in'} className="font-medium">
-          {title === 'Sign In' ? 'Sign Up' : 'Sign In'}
+          <Button variant="link" className="text-sm">
+            <span>{title === 'Sign In' ? 'Sign Up' : 'Sign In'}</span>
+          </Button>
         </Link>
       </div>
     </div>
