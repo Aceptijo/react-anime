@@ -4,10 +4,19 @@ import useSchedulesStore from '@/store/schedulesStore.ts';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
+const CALENDAR_DAYS = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
+
 const Calendar = () => {
   const [scheduledDay, setScheduledDay] = useState<string>('monday');
   const { isLoading, fetchAnimeSchedule, scheduledAnime } = useSchedulesStore();
-  const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
   const handleDayChange = (day: string) => {
     setScheduledDay(day);
@@ -22,12 +31,12 @@ const Calendar = () => {
       <div className="flex flex-col gap-5">
         <Tabs defaultValue={scheduledDay}>
           <TabsList className="flex h-full w-full gap-2 justify-between bg-secondaryBg p-2 rounded-lg">
-            {daysOfWeek.map((day) => (
+            {CALENDAR_DAYS.map((day) => (
               <TabsTrigger
                 value={day}
                 key={day}
                 onClick={() => handleDayChange(day)}
-                className="border text-sm w-full text-white border-none font-montserrat px-10 py-3 data-[state=active]:bg-secondary data-[state=active]:text-white
+                className="text-sm w-full text-white rounded-lg font-montserrat px-10 py-3 data-[state=active]:bg-secondary data-[state=active]:text-white
                 "
               >
                 {day.slice(0, 1).toUpperCase() + day.slice(1)}
