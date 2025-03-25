@@ -3,7 +3,7 @@ import Top from '@/pages/Top.tsx';
 import Catalog from '@/pages/Catalog.tsx';
 import Calendar from '@/pages/Calendar.tsx';
 import Main from '@/components/Main/Main.tsx';
-import CatalogItem from '@/pages/CatalogItem.tsx';
+import CatalogItem from '@/components/CatalogItem/CatalogItem.tsx';
 import Profile from '@/pages/Profile.tsx';
 import Users from '@/pages/Users.tsx';
 import SignIn from '@/pages/SignIn.tsx';

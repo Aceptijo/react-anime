@@ -20,14 +20,19 @@ import useReviewsStore from '@/store/reviewsStore.ts';
 import ReviewCard from '@/components/ReviewCard.tsx';
 import useAnimeByIdStore from '@/store/animeByIdStore.ts';
 import { Button } from '@/components/ui/button.tsx';
-import { MdOutlineRateReview, MdOutlineOndemandVideo } from 'react-icons/md';
 import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart.tsx';
-import { Label, Pie, PieChart } from 'recharts';
+  MdOutlineRateReview,
+  MdOutlineOndemandVideo,
+  MdOutlineListAlt,
+  MdInsertChartOutlined,
+} from 'react-icons/md';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart.tsx';
+import { Bar, BarChart, Label, Pie, PieChart, XAxis } from 'recharts';
+import { STATISTICS_CHART_CONFIG } from '@/components/CatalogItem/statisticsConfig.ts';
+import { getStatisticsChartData } from '@/components/CatalogItem/statisticsData.ts';
+import { getScoresChartData } from '@/components/CatalogItem/scoresData.ts';
+import { SCORES_CHART_CONFIG } from '@/components/CatalogItem/scoresConfig.ts';
+import useEpisodesStore from '@/store/episodesStore.ts';
 
 const CATALOG_ITEM_TABS = ['Episodes', 'Statistics', 'Reviews', 'Trailer'];
 
@@ -35,6 +40,7 @@ const CatalogItem = () => {
   const { fetchById, fetchedAnime, isLoading: isLoadingAnime } = useAnimeByIdStore();
   const { statistics, fetchStatistics, isLoading: isLoadingStatistics } = useStatisticsStore();
   const { reviews, fetchReviews, isLoading: isLoadingReviews } = useReviewsStore();
+  const { episodes, fetchEpisodes, isLoading: isLoadingEpisodes } = useEpisodesStore();
   const { id } = useParams();
   const [selectedValue, setSelectedValue] = useState<string>('');
 
@@ -56,47 +62,9 @@ const CatalogItem = () => {
   const getStatusForUrl = (status: string) => statusMapping[status] || '';
   const getRatingForUrl = (rating: string) => ratingMapping[rating] || '';
 
-  const statisticsChartConfig = {
-    favorites: {
-      label: 'Favorites',
-      color: 'hsl(var(--chart-1))',
-    },
-    watching: {
-      label: 'Watching',
-      color: 'hsl(var(--chart-2))',
-    },
-    planned: {
-      label: 'Planned',
-      color: 'hsl(var(--chart-3))',
-    },
-    dropped: {
-      label: 'Dropped',
-      color: 'hsl(var(--chart-4))',
-    },
-  } satisfies ChartConfig;
+  const scoresChartData = getScoresChartData(statistics);
 
-  const statisticsChartData = [
-    {
-      statistic: 'favorites',
-      users: fetchedAnime?.favorites,
-      fill: 'var(--color-favorites)',
-    },
-    {
-      statistic: 'watching',
-      users: statistics?.watching,
-      fill: 'var(--color-watching)',
-    },
-    {
-      statistic: 'planned',
-      users: statistics?.plan_to_watch,
-      fill: 'var(--color-planned)',
-    },
-    {
-      statistic: 'dropped',
-      users: statistics?.dropped,
-      fill: 'var(--color-dropped)',
-    },
-  ];
+  const statisticsChartData = getStatisticsChartData(statistics, fetchedAnime);
 
   const formatUsersCount = (total: string) => {
     if (total.length === 6) {
@@ -113,6 +81,7 @@ const CatalogItem = () => {
     fetchById(Number(id));
     fetchReviews(Number(id));
     fetchStatistics(Number(id));
+    fetchEpisodes(Number(id));
   }, [id]);
 
   return (
@@ -128,19 +97,13 @@ const CatalogItem = () => {
                 <Skeleton className="h-6 w-[150px] bg-secondaryBg" />
                 <Skeleton className="h-6 w-[150px] bg-secondaryBg" />
               </div>
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
-              <Skeleton className="h-4 w-2/3 bg-secondaryBg" />
+              {Array.from({ length: 8 }).map((_, index) => (
+                <Skeleton className="h-4 w-2/3 bg-secondaryBg" key={index} />
+              ))}
               <div className="flex gap-2">
-                <Skeleton className="h-10 w-[45px] bg-secondaryBg" />
-                <Skeleton className="h-10 w-[45px] bg-secondaryBg" />
-                <Skeleton className="h-10 w-[45px] bg-secondaryBg" />
-                <Skeleton className="h-10 w-[45px] bg-secondaryBg" />
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Skeleton className="h-10 w-[45px] bg-secondaryBg" key={index} />
+                ))}
               </div>
             </div>
           </div>
@@ -283,7 +246,7 @@ const CatalogItem = () => {
                             <ToggleGroupItem
                               value="planned"
                               aria-label="Planned"
-                              className="bg-primary rounded-lg hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-secondary data-[state=on]:text-white"
+                              className="bg-primary rounded-lg hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-chart-3 data-[state=on]:text-white"
                             >
                               <WatchLaterIcon className="text-white" />
                             </ToggleGroupItem>
@@ -319,23 +282,46 @@ const CatalogItem = () => {
                   {CATALOG_ITEM_TABS.map((tab) => (
                     <TabsTrigger
                       value={tab}
+                      key={tab}
                       className="px-10 py-3 rounded-lg font-montserrat text-white text-sm data-[state=active]:text-white data-[state=active]:bg-secondary"
                     >
                       {tab}
                     </TabsTrigger>
                   ))}
                 </TabsList>
-                <TabsContent value="Episodes" className="bg-secondaryBg rounded-lg p-5">
-                  <div className="grid grid-cols-4 gap-5">
-                    {Array.from({ length: Number(fetchedAnime?.episodes) }).map((_, index) => (
-                      <Button
-                        key={index}
-                        className="h-[150px] bg-accent rounded-lg flex items-center justify-center"
-                      >
-                        <span className="text-white text-sm font-montserrat">{`${index + 1} episode `}</span>
-                      </Button>
-                    ))}
-                  </div>
+                <TabsContent value="Episodes" className="bg-secondaryBg rounded-lg p-4">
+                  {isLoadingEpisodes ? (
+                    <Skeleton className="h-[272px]" />
+                  ) : episodes.length > 0 ? (
+                    <div className="grid grid-cols-4 gap-5">
+                      {episodes.map((episode) => (
+                        <a
+                          href={`${episode.url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          key={episode.mal_id}
+                          className="relative"
+                        >
+                          <Button className="h-[150px] w-full bg-accent rounded-lg flex flex-col items-center justify-center">
+                            <span className="text-white font-montserrat w-full font-bold line-clamp-3 text-wrap break-all">
+                              {episode.title}
+                            </span>
+                            <span className="text-muted absolute bottom-2 text-xs flex self-start">{`${episode.mal_id} episode `}</span>
+                          </Button>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className=" flex justify-start gap-5 items-center">
+                      <MdOutlineListAlt className="size-12" />
+                      <div className="flex flex-col gap-1">
+                        <span className="text-white text-sm font-bold font-montserrat">
+                          The episodes haven't been released yet
+                        </span>
+                        <p className="text-xs ">Maybe the anime hasn't been released yet.</p>
+                      </div>
+                    </div>
+                  )}
                 </TabsContent>
                 <TabsContent value="Trailer">
                   <div className="flex h-full w-full flex-col gap-5 rounded-lg bg-secondaryBg p-4">
@@ -382,88 +368,124 @@ const CatalogItem = () => {
                     )}
                   </div>
                 </TabsContent>
-                <TabsContent value="Statistics" className="bg-secondaryBg p-5 rounded-lg">
-                  <div className="flex">
-                    <div className="flex gap-10 basis-1/2">
-                      <div className="flex flex-col justify-between gap-2 text-sm text-muted">
-                        <span>{'Favourites:'}</span>
-                        <span>{'Watching:'}</span>
-                        <span>{'Planned'}</span>
-                        <span>{'Dropped:'}</span>
-                        <span>{'Total:'}</span>
-                      </div>
-                      <div className="flex flex-col text-sm justify-between gap-2">
-                        <span className="text-destructive">{fetchedAnime?.favorites}</span>
-                        <span className="text-secondary">{statistics?.watching}</span>
-                        <span className="text-secondary">{statistics?.plan_to_watch}</span>
-                        <span className="text-gray-400">{statistics?.dropped}</span>
-                        <span className="text-white">{statistics?.total}</span>
-                      </div>
-                      <ChartContainer
-                        config={statisticsChartConfig}
-                        className="ml-16 aspect-square max-h-[150px] w-[200px]"
-                      >
-                        <PieChart>
-                          <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent className="px-2 text-white space-y-2" />}
-                          />
-                          <Pie
-                            data={statisticsChartData}
-                            dataKey="users"
-                            nameKey="statistic"
-                            innerRadius={45}
-                            outerRadius={70}
-                            strokeWidth={1}
-                          >
-                            <Label
-                              content={({ viewBox }) => {
-                                if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
-                                  return (
-                                    <text
-                                      x={viewBox.cx}
-                                      y={viewBox.cy}
-                                      textAnchor="middle"
-                                      dominantBaseline="middle"
-                                    >
-                                      <tspan
+                <TabsContent value="Statistics" className="bg-secondaryBg p-4 rounded-lg">
+                  {isLoadingStatistics ? (
+                    <Skeleton className="h-[272px]" />
+                  ) : statistics ? (
+                    <div className="flex">
+                      <div className="flex gap-10 basis-1/2">
+                        <div className="flex flex-col justify-between gap-2 text-sm text-muted">
+                          <span>{'Favourites:'}</span>
+                          <span>{'Watching:'}</span>
+                          <span>{'Planned'}</span>
+                          <span>{'Dropped:'}</span>
+                          <span>{'Total:'}</span>
+                        </div>
+                        <div className="flex flex-col text-sm justify-between gap-2">
+                          <span className="text-destructive">{fetchedAnime?.favorites}</span>
+                          <span className="text-secondary">{statistics?.watching}</span>
+                          <span className="text-chart-3">{statistics?.plan_to_watch}</span>
+                          <span className="text-gray-400">{statistics?.dropped}</span>
+                          <span className="text-white">{statistics?.total}</span>
+                        </div>
+                        <ChartContainer
+                          config={STATISTICS_CHART_CONFIG}
+                          className="ml-16 aspect-square max-h-[150px] w-[200px]"
+                        >
+                          <PieChart>
+                            <ChartTooltip
+                              cursor={false}
+                              content={
+                                <ChartTooltipContent className="px-2 text-white space-y-2" />
+                              }
+                            />
+                            <Pie
+                              data={statisticsChartData}
+                              dataKey="users"
+                              nameKey="statistic"
+                              innerRadius={45}
+                              outerRadius={70}
+                              strokeWidth={1}
+                            >
+                              <Label
+                                content={({ viewBox }) => {
+                                  if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                                    return (
+                                      <text
                                         x={viewBox.cx}
                                         y={viewBox.cy}
-                                        className="fill-white font-montserrat text-2xl font-bold"
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
                                       >
-                                        {formatUsersCount(String(statistics?.total))}
-                                      </tspan>
-                                      <tspan
-                                        x={viewBox.cx}
-                                        y={(viewBox.cy || 0) + 20}
-                                        className="fill-muted-foreground"
-                                      >
-                                        Users
-                                      </tspan>
-                                    </text>
-                                  );
-                                }
-                              }}
+                                        <tspan
+                                          x={viewBox.cx}
+                                          y={viewBox.cy}
+                                          className="fill-white font-montserrat text-2xl font-bold"
+                                        >
+                                          {formatUsersCount(String(statistics?.total))}
+                                        </tspan>
+                                        <tspan
+                                          x={viewBox.cx}
+                                          y={(viewBox.cy || 0) + 20}
+                                          className="fill-muted-foreground"
+                                        >
+                                          Users
+                                        </tspan>
+                                      </text>
+                                    );
+                                  }
+                                }}
+                              />
+                            </Pie>
+                          </PieChart>
+                        </ChartContainer>
+                      </div>
+                      <div className="flex gap-10 w-full basis-1/2">
+                        <div className="flex flex-col justify-between gap-2 text-sm text-muted">
+                          <span>{`Score:`}</span>
+                          <span>{`Score by:`}</span>
+                          <span>{`Rank:`}</span>
+                          <span>{`Popularity:`}</span>
+                        </div>
+                        <div className="flex flex-col justify-between text-sm text-white">
+                          <span className="text-myYellow">{fetchedAnime?.score ?? 0}</span>
+                          <span>{fetchedAnime?.scored_by || '0'}</span>
+                          <span>{fetchedAnime?.rank}</span>
+                          <span>{fetchedAnime?.popularity}</span>
+                        </div>
+                        <ChartContainer
+                          config={SCORES_CHART_CONFIG}
+                          className="aspect-square max-h-[150px] w-full"
+                        >
+                          <BarChart data={scoresChartData}>
+                            <ChartTooltip
+                              cursor={false}
+                              content={<ChartTooltipContent hideLabel />}
                             />
-                          </Pie>
-                        </PieChart>
-                      </ChartContainer>
-                    </div>
-                    <div className="flex gap-10">
-                      <div className="flex flex-col justify-between gap-2 text-sm text-muted">
-                        <span>{`Score:`}</span>
-                        <span>{`Score by:`}</span>
-                        <span>{`Rank:`}</span>
-                        <span>{`Popularity:`}</span>
-                      </div>
-                      <div className="flex flex-col justify-between text-sm text-white">
-                        <span className="text-myYellow">{fetchedAnime?.score ?? 0}</span>
-                        <span>{`${fetchedAnime?.scored_by || '0'} users`}</span>
-                        <span>{fetchedAnime?.rank}</span>
-                        <span>{fetchedAnime?.popularity}</span>
+                            <XAxis
+                              dataKey="score"
+                              tickLine={false}
+                              tickMargin={17}
+                              axisLine={false}
+                            />
+                            <Bar dataKey="votes" radius={10} />
+                          </BarChart>
+                        </ChartContainer>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className=" flex justify-start gap-5 items-center">
+                      <MdInsertChartOutlined className="size-12" />
+                      <div className="flex flex-col gap-1">
+                        <span className="text-white text-sm font-bold font-montserrat">
+                          There are no statistics on this anime yet
+                        </span>
+                        <p className="text-xs ">
+                          Maybe the anime was released recently and has not collected statistics yet
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </TabsContent>
               </Tabs>
             </div>

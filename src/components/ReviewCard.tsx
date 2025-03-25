@@ -6,6 +6,7 @@ import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { FaStar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button.tsx';
 import { ChevronLeft } from 'lucide-react';
+import { Badge } from '@/components/ui/badge.tsx';
 
 type ReviewCardProps = {
   review: IReviews;
@@ -20,27 +21,27 @@ const ReviewCard: FC<ReviewCardProps> = ({ review }) => {
 
   return (
     <Card className="bg-secondaryBg border-accent">
-      <CardContent className="flex flex-col p-4">
-        <div className="flex gap-5">
+      <CardContent className="flex flex-col p-3">
+        <div className="flex gap-3">
           <Link
             to={`${review.user.url}`}
-            className="border-secondaryBg h-full border-4 rounded-md transition-all hover:bg-accent hover:border-accent"
+            className="border-secondaryBg h-full border-4 rounded-lg transition-all hover:bg-accent hover:border-accent"
           >
             <img
               src={review.user.images.jpg.image_url}
               alt={review.url}
-              className="h-16 w-16 rounded-md object-cover"
+              className="h-16 w-16 rounded-lg object-cover"
             />
           </Link>
-          <div className="flex flex-col items-start gap-2 w-full">
+          <div className="flex flex-col items-start gap-3 w-full">
             <div className="flex justify-between w-full">
               <Link
                 to={`${review.user.url}`}
-                className="font-medium transition-all hover:text-secondary"
+                className="font-bold text-sm font-montserrat transition-all hover:text-secondary"
               >
                 {review.user.username}
               </Link>
-              <span className="text-muted-foreground">
+              <span className="text-muted-foreground text-sm">
                 {new Date(review.date).toLocaleDateString('en-US', {
                   day: '2-digit',
                   month: 'short',
@@ -50,30 +51,30 @@ const ReviewCard: FC<ReviewCardProps> = ({ review }) => {
             </div>
             <div className="flex gap-2">
               {review.tags[0] === 'Recommended' && (
-                <Button variant="secondary">
+                <Badge variant="secondary" className="flex gap-2">
                   <AiFillLike />
                   <span>{review.tags[0]}</span>
-                </Button>
+                </Badge>
               )}
               {review.tags[0] === 'Not Recommended' && (
-                <Button variant="destructive">
+                <Badge variant="destructive" className="flex gap-2">
                   <AiFillDislike />
                   <span>{review.tags[0]}</span>
-                </Button>
+                </Badge>
               )}
               {review.tags[0] === 'Mixed Feelings' && (
-                <Button>
+                <Badge>
                   <span>{review.tags[0]}</span>
-                </Button>
+                </Badge>
               )}
-              <Button className="text-myYellow">
+              <Badge className="text-myYellow flex gap-2">
                 <FaStar />
                 <span>{`Score ${review.score}/10`}</span>
-              </Button>
+              </Badge>
             </div>
             <div className={`${!isOpen ? 'line-clamp-6' : ''} overflow-hidden text-sm`}>
               {review.review.split('\n').map((line, index) => (
-                <p className="text-left mb-4" key={index}>
+                <p className="text-left mb-4 text-sm text-muted" key={index}>
                   {line}
                 </p>
               ))}

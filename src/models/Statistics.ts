@@ -5,4 +5,8 @@ export type IStatistics = {
   dropped: number;
   plan_to_watch: number;
   total: number;
+  scores: {
+    score: number;
+    votes: number;
+  }[];
 };

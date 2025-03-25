@@ -1,10 +1,11 @@
 import useTopAnimeStore from '@/store/topAnimeStore.ts';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import AnimeCard from '@/components/AnimeCard/AnimeCard.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 const Top = () => {
   const { topAnime, fetchTopAnime, isLoading } = useTopAnimeStore();
+  const loader = useRef(null);
 
   useEffect(() => {
     fetchTopAnime(25, 1);
@@ -33,6 +34,7 @@ const Top = () => {
           </div>
         </div>
       )}
+      <div ref={loader} />
     </div>
   );
 };
