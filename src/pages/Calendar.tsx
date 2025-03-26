@@ -15,7 +15,7 @@ const CALENDAR_DAYS = [
 ];
 
 const Calendar = () => {
-  const [scheduledDay, setScheduledDay] = useState<string>('monday');
+  const [scheduledDay, setScheduledDay] = useState<string>(CALENDAR_DAYS[new Date().getDay() - 1]);
   const { isLoading, fetchAnimeSchedule, scheduledAnime } = useSchedulesStore();
 
   const handleDayChange = (day: string) => {

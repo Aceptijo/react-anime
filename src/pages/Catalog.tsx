@@ -78,7 +78,7 @@ const Catalog = () => {
           <>
             <div className="flex w-4/5 flex-col items-start gap-3">
               <div className="flex w-full items-start justify-between gap-3">
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center">
                   <span className="text-lg font-bold font-montserrat text-white">Anime List</span>
                   <span className="text-lg font-medium font-montserrat text-muted-foreground">
                     {`(${pagination?.items.total})`}
