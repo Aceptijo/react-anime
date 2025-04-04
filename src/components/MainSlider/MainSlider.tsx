@@ -45,7 +45,7 @@ const MainSlider = () => {
                       {anime.score || 'Unknown'}
                     </Badge>
                     <Badge className="cursor-pointer ">{anime.year || 'Unknown'}</Badge>
-                    <Badge className="cursor-pointer">{`Ep: ${anime.episodes}`}</Badge>
+                    <Badge className="cursor-pointer">{`Ep: ${anime.episodes || '-'}`}</Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer border-secondary text-secondary hover:bg-secondary hover:text-white"
@@ -56,7 +56,7 @@ const MainSlider = () => {
                       variant="outline"
                       className="cursor-pointer border-destructive text-destructive hover:bg-destructive hover:text-white"
                     >
-                      {anime.rating}
+                      {anime.rating || 'Unknown'}
                     </Badge>
                   </div>
                   <p className="text-left text-sm">

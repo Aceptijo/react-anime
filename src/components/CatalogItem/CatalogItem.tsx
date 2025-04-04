@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.t
 import useStatisticsStore from '@/store/statisticsStore.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import useReviewsStore from '@/store/reviewsStore.ts';
-import ReviewCard from '@/components/ReviewCard.tsx';
+import ReviewCard from '@/components/ReviewCard/ReviewCard.tsx';
 import useAnimeByIdStore from '@/store/animeByIdStore.ts';
 import { Button } from '@/components/ui/button.tsx';
 import {
@@ -33,6 +33,11 @@ import { getStatisticsChartData } from '@/components/CatalogItem/statisticsData.
 import { getScoresChartData } from '@/components/CatalogItem/scoresData.ts';
 import { SCORES_CHART_CONFIG } from '@/components/CatalogItem/scoresConfig.ts';
 import useEpisodesStore from '@/store/episodesStore.ts';
+import useAuthStore from '@/store/authStore.ts';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/Firebase/firebaseConfig.ts';
+import { updateUserAnimeList } from '@/lib/Firestore/updateUserAnimeList.ts';
+import { IFirestoreAnime } from '@/models/FirestoreAnime.ts';
 
 const CATALOG_ITEM_TABS = ['Episodes', 'Statistics', 'Reviews', 'Trailer'];
 
@@ -43,6 +48,55 @@ const CatalogItem = () => {
   const { episodes, fetchEpisodes, isLoading: isLoadingEpisodes } = useEpisodesStore();
   const { id } = useParams();
   const [selectedValue, setSelectedValue] = useState<string>('');
+  const { user } = useAuthStore();
+  const userId = user?.uid;
+
+  useEffect(() => {
+    if (!userId) return;
+    const fetchAnimeStatus = async () => {
+      const userRef = doc(db, 'users', userId);
+      const userDoc = await getDoc(userRef);
+
+      if (!userDoc.exists()) return;
+
+      const userData = userDoc.data();
+      const animeLists = userData.animeList || {};
+
+      for (const listName of ['favorites', 'watching', 'planned', 'dropped']) {
+        if (
+          animeLists[listName]?.some((item: IFirestoreAnime) => item.id === fetchedAnime?.mal_id)
+        ) {
+          setSelectedValue(listName);
+          return;
+        }
+      }
+    };
+
+    fetchAnimeStatus();
+  }, [userId, fetchedAnime]);
+
+  const handleToggle = async (value: string) => {
+    if (!userId || !fetchedAnime) return;
+
+    const animeToSave: IFirestoreAnime = {
+      id: fetchedAnime.mal_id,
+      title: fetchedAnime.title,
+      userRating: fetchedAnime.score,
+      year: fetchedAnime.year,
+      type: fetchedAnime.type,
+      status: fetchedAnime.status,
+    };
+
+    if (selectedValue) {
+      await updateUserAnimeList(userId, selectedValue, animeToSave);
+    }
+
+    if (value) {
+      await updateUserAnimeList(userId, value, animeToSave);
+    }
+
+    setSelectedValue(value);
+  };
 
   const statusMapping: Record<string, string> = {
     'Currently Airing': 'Airing',
@@ -78,10 +132,15 @@ const CatalogItem = () => {
   };
 
   useEffect(() => {
-    fetchById(Number(id));
-    fetchReviews(Number(id));
-    fetchStatistics(Number(id));
-    fetchEpisodes(Number(id));
+    const fetchData = async () => {
+      fetchById(Number(id));
+      fetchEpisodes(Number(id));
+      setTimeout(() => {
+        fetchStatistics(Number(id));
+        fetchReviews(Number(id));
+      }, 1000);
+    };
+    fetchData();
   }, [id]);
 
   return (
@@ -208,7 +267,7 @@ const CatalogItem = () => {
                     <ToggleGroup
                       type="single"
                       value={selectedValue}
-                      onValueChange={(value) => setSelectedValue(value)}
+                      onValueChange={handleToggle}
                       size="lg"
                       className="flex mt-5 justify-start"
                     >
@@ -216,8 +275,8 @@ const CatalogItem = () => {
                         <TooltipTrigger asChild>
                           <div>
                             <ToggleGroupItem
-                              value="favourites"
-                              aria-label="Favourites"
+                              value="favorites"
+                              aria-label="Favorites"
                               className="bg-primary rounded-lg hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-destructive data-[state=on]:text-white"
                             >
                               <FavoriteRoundedIcon className="text-white" />

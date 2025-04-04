@@ -25,12 +25,12 @@ const ReviewCard: FC<ReviewCardProps> = ({ review }) => {
         <div className="flex gap-3">
           <Link
             to={`${review.user.url}`}
-            className="border-secondaryBg h-full border-4 rounded-lg transition-all hover:bg-accent hover:border-accent"
+            className="border-secondaryBg h-full border-2 rounded-lg transition-all hover:bg-accent hover:border-accent"
           >
             <img
               src={review.user.images.jpg.image_url}
               alt={review.url}
-              className="h-16 w-16 rounded-lg object-cover"
+              className="h-14 w-16 rounded-lg object-cover"
             />
           </Link>
           <div className="flex flex-col items-start gap-3 w-full">

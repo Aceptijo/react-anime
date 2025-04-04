@@ -1,6 +1,6 @@
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { create } from 'zustand';
-import { auth } from '@/lib/firebaseConfig.ts';
+import { auth } from '@/lib/Firebase/firebaseConfig.ts';
 
 type AuthStore = {
   user: User | null;
