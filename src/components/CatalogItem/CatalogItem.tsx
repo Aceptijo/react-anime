@@ -41,13 +41,15 @@ import { IFirestoreAnime } from '@/models/FirestoreAnime.ts';
 
 const CATALOG_ITEM_TABS = ['Episodes', 'Statistics', 'Reviews', 'Trailer'];
 
+type SelectedValueTypes = 'favorites' | 'watching' | 'planned' | 'dropped';
+
 const CatalogItem = () => {
   const { fetchById, fetchedAnime, isLoading: isLoadingAnime } = useAnimeByIdStore();
   const { statistics, fetchStatistics, isLoading: isLoadingStatistics } = useStatisticsStore();
   const { reviews, fetchReviews, isLoading: isLoadingReviews } = useReviewsStore();
   const { episodes, fetchEpisodes, isLoading: isLoadingEpisodes } = useEpisodesStore();
   const { id } = useParams();
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<SelectedValueTypes | ''>('');
   const { user } = useAuthStore();
   const userId = user?.uid;
 
@@ -66,7 +68,7 @@ const CatalogItem = () => {
         if (
           animeLists[listName]?.some((item: IFirestoreAnime) => item.id === fetchedAnime?.mal_id)
         ) {
-          setSelectedValue(listName);
+          setSelectedValue(listName as SelectedValueTypes);
           return;
         }
       }
@@ -75,7 +77,7 @@ const CatalogItem = () => {
     fetchAnimeStatus();
   }, [userId, fetchedAnime]);
 
-  const handleToggle = async (value: string) => {
+  const handleToggle = async (value: SelectedValueTypes) => {
     if (!userId || !fetchedAnime) return;
 
     const animeToSave: IFirestoreAnime = {
