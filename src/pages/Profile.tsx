@@ -1,7 +1,6 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { FaGithub, FaTelegramPlane, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { UserRoundPen } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import { logout } from '@/lib/Firebase/auth.ts';
@@ -137,20 +136,20 @@ const Profile = () => {
           <h1 className="text-lg font-bold font-montserrat text-white">{user?.displayName}</h1>
           <p className="text-sm text-muted-foreground">Description</p>
           <Badge variant="secondary">User</Badge>
-          <div className="flex gap-2 justify-between">
-            <Button>
-              <FaGithub />
-            </Button>
-            <Button>
-              <FaTelegramPlane />
-            </Button>
-            <Button>
-              <FaInstagram />
-            </Button>
-            <Button>
-              <FaLinkedin />
-            </Button>
-          </div>
+          {/*<div className="flex gap-2 justify-between">*/}
+          {/*  <Button>*/}
+          {/*    <FaGithub />*/}
+          {/*  </Button>*/}
+          {/*  <Button>*/}
+          {/*    <FaTelegramPlane />*/}
+          {/*  </Button>*/}
+          {/*  <Button>*/}
+          {/*    <FaInstagram />*/}
+          {/*  </Button>*/}
+          {/*  <Button>*/}
+          {/*    <FaLinkedin />*/}
+          {/*  </Button>*/}
+          {/*</div>*/}
           <Button className="h-7 w-7 absolute right-5 top-5">
             <UserRoundPen />
           </Button>
@@ -163,7 +162,7 @@ const Profile = () => {
               data={userStatisticsData}
               layout="vertical"
               margin={{
-                right: 35,
+                right: 65,
               }}
             >
               <YAxis
@@ -186,8 +185,8 @@ const Profile = () => {
                 />
                 <LabelList
                   dataKey="list"
-                  position="right"
-                  offset={8}
+                  position="insideLeft"
+                  offset={155}
                   className="fill-white"
                   fontSize={12}
                 />
