@@ -33,7 +33,7 @@ const MainSlider = () => {
             {seasonAnime.map((anime) => (
               <CarouselItem
                 key={anime.mal_id}
-                className="flex h-screen items-center justify-between"
+                className="lg:flex h-screen hidden items-center justify-between"
               >
                 <div className="flex basis-1/2 flex-col items-start gap-5">
                   <h1 className="text-left text-3xl text-white font-bold font-montserrat">

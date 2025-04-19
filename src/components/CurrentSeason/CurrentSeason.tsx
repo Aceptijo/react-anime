@@ -44,13 +44,16 @@ const CurrentSeason = () => {
           </span>
           <CarouselContent>
             {seasonAnime.map((seasonItem) => (
-              <CarouselItem key={seasonItem.mal_id} className="w-1/5 basis-1/5">
+              <CarouselItem
+                key={seasonItem.mal_id}
+                className="md:w-1/5 sm:basis-1/3 lg:basis-1/5 basis-1/2"
+              >
                 <AnimeCard anime={seasonItem} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious variant="ghost" />
-          <CarouselNext variant="ghost" />
+          <CarouselPrevious variant="ghost" className="hidden lg:inline-block" />
+          <CarouselNext variant="ghost" className="hidden lg:inline-block" />
         </Carousel>
       )}
     </>

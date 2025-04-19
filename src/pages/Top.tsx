@@ -52,13 +52,13 @@ const Top = () => {
       ) : (
         <div className="flex gap-5">
           <div className="flex flex-col gap-5">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 px-3 lg:p-0">
               <span className="text-lg text-white font-montserrat font-bold">Top</span>
               <span className="text-lg font-medium font-montserrat text-muted-foreground">
                 (100)
               </span>
             </div>
-            <div className="grid w-full grid-cols-5 gap-5">
+            <div className="grid w-full lg:grid-cols-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 p-3 lg:p-0 gap-5">
               {topAnime?.map((anime) => <AnimeCard anime={anime} key={anime.mal_id} />)}
             </div>
           </div>

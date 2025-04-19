@@ -30,7 +30,7 @@ const Recommendations = () => {
         </div>
       ) : (
         <Carousel
-          className="flex flex-col justify-start"
+          className="flex mt-10 lg:mt-0 flex-col justify-start"
           opts={{
             align: 'start',
           }}
@@ -40,13 +40,13 @@ const Recommendations = () => {
           </span>
           <CarouselContent>
             {anime.map((item) => (
-              <CarouselItem key={item.mal_id} className="w-1/5 basis-1/5">
+              <CarouselItem key={item.mal_id} className="w-1/5 basis-1/2 sm:basis-1/3 lg:basis-1/5">
                 <AnimeCard anime={item} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious variant="ghost" />
-          <CarouselNext variant="ghost" />
+          <CarouselPrevious variant="ghost" className="hidden lg:inline-block" />
+          <CarouselNext variant="ghost" className="hidden lg:inline-block" />
         </Carousel>
       )}
     </>

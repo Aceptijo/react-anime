@@ -34,7 +34,7 @@ const Filters: React.FC<FiltersProps> = ({ currentPage }) => {
   const { fetchAnime, setFilters, filters, removeFilters } = useAnimeStore();
 
   return (
-    <div className="flex h-full w-1/5 gap-5">
+    <div className="h-full gap-5">
       <div className="flex w-full flex-col items-start gap-5 rounded-lg bg-secondaryBg px-3 py-3">
         <div className="flex w-full flex-col items-start gap-2">
           <span className="font-montserrat text-white text-sm">Genres</span>

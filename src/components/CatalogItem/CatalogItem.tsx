@@ -146,7 +146,13 @@ const CatalogItem = () => {
   }, [id]);
 
   return (
-    <div className="mt-24 flex w-full gap-5 flex-col">
+    <div className="mt-24 flex w-full gap-5 flex-col p-3 lg:p-0 relative">
+      <img
+        className=" object-cover w-screen absolute opacity-5 right-0 top-[-15px] lg:hidden"
+        src={`${fetchedAnime?.images.jpg.large_image_url}`}
+        alt={`${fetchedAnime?.title_english}`}
+      />
+      <div className="absolute top-52 bottom-1 left-0 w-full h-1/3 bg-gradient-to-t from-background to-transparent lg:hidden" />
       {isLoadingAnime && isLoadingStatistics ? (
         <>
           <div className="flex gap-5">
@@ -173,15 +179,15 @@ const CatalogItem = () => {
         </>
       ) : (
         <>
-          <div className="flex gap-5">
-            <div className="h-[453px]">
+          <div className="flex gap-5 relative">
+            <div className="h-[453px] hidden lg:inline-block">
               <img
                 className="rounded-lg object-cover h-full"
                 src={`${fetchedAnime?.images.jpg.large_image_url}`}
                 alt={`${fetchedAnime?.title_english}`}
               />
             </div>
-            <div className="flex w-3/4 self-end">
+            <div className="flex lg:w-3/4 w-full self-end">
               <div className="flex items-center justify-between w-full">
                 <div className="flex flex-col w-full">
                   <div className="flex justify-between items-start mt-5">
@@ -335,8 +341,8 @@ const CatalogItem = () => {
               </div>
             </div>
           </div>
-          <p className="text-left break-words">{fetchedAnime?.synopsis}</p>
-          <div className="flex w-full flex-col gap-5">
+          <p className="text-left break-words z-10">{fetchedAnime?.synopsis}</p>
+          <div className="flex w-full flex-col gap-5 z-10">
             <div className="flex flex-col gap-3 rounded-lg text-left">
               <Tabs defaultValue="Episodes">
                 <TabsList className="h-full p-2 flex gap-2 bg-secondaryBg justify-start">
@@ -354,7 +360,7 @@ const CatalogItem = () => {
                   {isLoadingEpisodes ? (
                     <Skeleton className="h-[272px]" />
                   ) : episodes.length > 0 ? (
-                    <div className="grid grid-cols-4 gap-5">
+                    <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
                       {episodes.map((episode) => (
                         <a
                           href={`${episode.url}`}
@@ -433,7 +439,7 @@ const CatalogItem = () => {
                   {isLoadingStatistics ? (
                     <Skeleton className="h-[272px]" />
                   ) : statistics ? (
-                    <div className="flex">
+                    <div className="flex flex-col gap-10 lg:flex-row lg:gap-0">
                       <div className="flex gap-10 basis-1/2">
                         <div className="flex flex-col justify-between gap-2 text-sm text-muted">
                           <span>{'Favourites:'}</span>

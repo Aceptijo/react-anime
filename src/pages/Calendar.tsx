@@ -29,8 +29,8 @@ const Calendar = () => {
   return (
     <div className="mt-24">
       <div className="flex flex-col gap-5">
-        <Tabs defaultValue={scheduledDay}>
-          <TabsList className="flex h-full w-full gap-2 justify-between bg-secondaryBg p-2 rounded-lg">
+        <Tabs defaultValue={scheduledDay} className="px-3 lg:px-0">
+          <TabsList className="flex flex-wrap lg:flex-nowrap h-full w-full gap-2 justify-between bg-secondaryBg p-2 rounded-lg">
             {CALENDAR_DAYS.map((day) => (
               <TabsTrigger
                 value={day}
@@ -54,7 +54,7 @@ const Calendar = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-5">
-            <div className="grid w-full grid-cols-5 gap-5">
+            <div className="grid w-full lg:grid-cols-5 p-3 lg:p-0 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
               {scheduledAnime.map((anime) => (
                 <AnimeCard anime={anime} key={anime.mal_id} />
               ))}

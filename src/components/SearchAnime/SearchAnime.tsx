@@ -28,7 +28,10 @@ const SearchAnime = () => {
   }, [setOpen]);
 
   return (
-    <div className="relative w-[250px] focus-within:w-[425px] transition-all" ref={searchRef}>
+    <div
+      className="relative w-full lg:w-[250px] lg:focus-within:w-[425px] transition-all"
+      ref={searchRef}
+    >
       <Input
         value={query}
         onChange={(event) => setQuery(event.target.value)}

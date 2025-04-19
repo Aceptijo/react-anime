@@ -23,6 +23,14 @@ import { Button } from '@/components/ui/button.tsx';
 import Filters from '@/components/Filters/Filters.tsx';
 import useAnimeStore from '@/store/animeStore.ts';
 import useGenresStore from '@/store/genresStore.ts';
+import { FaFilter } from 'react-icons/fa';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet.tsx';
 
 const Catalog = () => {
   const { anime, isLoading, fetchAnime, pagination, setFilters, filters } = useAnimeStore();
@@ -55,7 +63,7 @@ const Catalog = () => {
 
   return (
     <div className="mt-24">
-      <div className="flex w-full gap-5">
+      <div className="flex w-full gap-5 px-3 lg:px-0">
         {isLoading ? (
           <div className="flex w-full gap-5">
             <div className="flex flex-col gap-5">
@@ -76,7 +84,7 @@ const Catalog = () => {
           </div>
         ) : (
           <>
-            <div className="flex w-4/5 flex-col items-start gap-3">
+            <div className="flex lg:w-4/5 w-full flex-col items-start gap-3">
               <div className="flex w-full items-start justify-between gap-3">
                 <div className="flex gap-3 items-center">
                   <span className="text-lg font-bold font-montserrat text-white">Anime List</span>
@@ -117,9 +125,22 @@ const Catalog = () => {
                       <SelectItem value="rank">Rank</SelectItem>
                     </SelectContent>
                   </Select>
+                  <Sheet>
+                    <SheetTrigger className="bg-primary rounded-lg px-3 lg:hidden">
+                      <FaFilter className="!w-4 !h-4 text-white" />
+                    </SheetTrigger>
+                    <SheetContent className="border-primary w-2/3">
+                      <SheetHeader>
+                        <SheetTitle className="text-white mb-5">Filters</SheetTitle>
+                      </SheetHeader>
+                      <div className="w-full">
+                        <Filters currentPage={currentPage} />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-5">
+              <div className="grid lg:grid-cols-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full">
                 {anime.map((item) => (
                   <AnimeCard anime={item} key={item.mal_id} />
                 ))}
@@ -182,7 +203,9 @@ const Catalog = () => {
                 </Pagination>
               )}
             </div>
-            <Filters currentPage={currentPage} />
+            <div className="hidden lg:flex lg:w-1/5">
+              <Filters currentPage={currentPage} />
+            </div>
           </>
         )}
       </div>

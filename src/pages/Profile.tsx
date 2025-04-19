@@ -128,7 +128,7 @@ const Profile = () => {
 
   return (
     <div className="mt-20 w-full flex gap-5">
-      <div className="flex w-1/4 h-full flex-col gap-5">
+      <div className="lg:flex w-1/4 h-full flex-col hidden gap-5">
         <div className="flex w-full relative bg-secondaryBg rounded-xl p-5 flex-col items-center gap-5">
           <Avatar className="h-14 w-14">
             <AvatarImage src="https://github.com/shadcn.png" />
@@ -203,10 +203,10 @@ const Profile = () => {
           <TbLogout />
         </Button>
       </div>
-      <div className="flex flex-col h-full w-full gap-2">
+      <div className="flex flex-col h-full w-full gap-2 px-3 lg:px-0">
         <div className="flex bg-background rounded-lg flex-col w-full">
           <Tabs defaultValue="Favorites">
-            <TabsList className="h-full p-2 flex gap-2 bg-secondaryBg justify-start">
+            <TabsList className="h-full p-2 flex gap-2 bg-secondaryBg justify-between  lg:justify-start">
               {PROFILE_STATISTICS.map(({ label }) => (
                 <TabsTrigger
                   value={label}
